@@ -1,0 +1,5 @@
+.env
+.env.local
+.env.*.local
+data.db
+node_modules

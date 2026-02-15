@@ -1,0 +1,16 @@
+{
+  "name": "Louis Perrin Tutor",
+  "short_name": "LP Tutor",
+  "description": "Expert GCSE & A-Level Tutoring in Maths, Physics, and Further Maths",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#0056ff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Create a free account with Louis Perrin Tutor to access exclusive educational resources and manage your tutoring sessions.">
+  <meta name="keywords" content="create account, tutor account, sign up, tutoring registration">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/singup.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/singup.html">
+  <meta property="og:title" content="Create Account - Louis Perrin Tutor">
+  <meta property="og:description" content="Create a free account to access exclusive educational resources and manage your tutoring sessions.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Create Account - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Create a free account to access exclusive educational resources.">
+  
+  <title>Create Account - Louis Perrin Tutor</title>
+
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+  <style>
+    body {
+      background: var(--background-gray, #f8f9fb);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .signup-container {
+      background: #fff;
+      border-radius: var(--border-radius, 10px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .signup-container h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary, #333);
+    }
+
+    .signup-container p {
+      color: var(--text-secondary, #666);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .signup-container button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .signup-container input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius, 6px);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .field-error {
+      display: none;
+      color: #c33;
+      font-size: 0.85rem;
+      margin-top: -0.5rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+
+    .signup-container button {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      background: var(--primary-blue, #0056ff);
+      color: white;
+      font-weight: bold;
+      border-radius: var(--border-radius, 6px);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .signup-container button:hover {
+      background: var(--primary-blue-hover, #0040d4);
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 1rem;
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/email-validation.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+</head>
+
+  <body>
+    <div data-include="navigation" data-nav-type="standard"></div>
+    <main role="main">
+      <div class="signup-container">
+        <h1>Create an Account</h1>
+        <p>Get access to exclusive educational resources and manage your tutoring sessions.</p>
+
+        <form id="signupForm" aria-label="Account creation form">
+          <label for="fullName" class="sr-only">Full name</label>
+          <input type="text" id="fullName" placeholder="Full Name" required 
+                 aria-required="true" 
+                 aria-describedby="fullNameError" />
+          <span class="field-error" data-field="fullName" id="fullNameError" role="alert" aria-live="polite"></span>
+
+          <label for="email" class="sr-only">Email address</label>
+          <input type="email" id="email" placeholder="Email Address" required 
+                 pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+                 title="Please enter a valid email address (e.g., name@example.com)"
+                 aria-required="true" 
+                 aria-describedby="emailError" />
+          <span class="field-error email-error" data-field="email" id="emailError" role="alert" aria-live="polite"></span>
+
+          <label for="password" class="sr-only">Password</label>
+          <input type="password" id="password" placeholder="Password" required 
+                 minlength="8"
+                 title="Password must be at least 8 characters long"
+                 aria-required="true" 
+                 aria-describedby="passwordError" />
+          <span class="field-error" data-field="password" id="passwordError" role="alert" aria-live="polite"></span>
+
+          <button type="submit" aria-label="Create account">Create Account</button>
+          <p id="responseMsg" class="success-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </main>
+
+  <!-- form-validation.js disabled for signup form - using custom validation -->
+  <!-- <script src="/form-validation.js" defer></script> -->
+  <script>
+    const form = document.getElementById("signupForm");
+    const msg = document.getElementById("responseMsg");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const fullNameError = document.getElementById("fullNameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // Prevent other handlers from interfering
+      
+      console.log('Form submit triggered'); // Debug log
+      
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
+      console.log('Form data:', { fullName, email, password: '***' }); // Debug log
+      
+      // Hide previous messages and clear errors
+      msg.style.display = "none";
+      if (fullNameError) fullNameError.style.display = "none";
+      if (emailError) emailError.style.display = "none";
+      if (passwordError) passwordError.style.display = "none";
+      
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Creating Account...";
+      }
+
+      // Validate full name
+      if (!fullName || fullName.length < 2) {
+        console.log('Validation failed: full name'); // Debug log
+        if (fullNameError) {
+          fullNameError.textContent = "Please enter your full name (at least 2 characters).";
+          fullNameError.style.display = "block";
+        }
+        fullNameInput.setAttribute('aria-invalid', 'true');
+        fullNameInput.classList.add('invalid');
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        msg.textContent = "Please enter your full name.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+        fullNameInput.focus();
+        return;
+      }
+      if (fullNameError) fullNameError.style.display = "none";
+      fullNameInput.setAttribute('aria-invalid', 'false');
+      fullNameInput.classList.remove('invalid');
+
+      // Validate email using shared validation
+      if (typeof isValidEmail !== 'function') {
+        console.error('isValidEmail function not found! Check if email-validation.js is loaded.');
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        msg.textContent = "Page error: validation script not loaded. Please refresh the page.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+        return;
+      }
+      
+      const emailIsValid = isValidEmail(email);
+      console.log('Email validation result:', emailIsValid, 'for email:', email); // Debug log
+      
+      if (!emailIsValid) {
+        console.log('Validation failed: email'); // Debug log
+        if (emailError) {
+          emailError.textContent = 'Please enter a valid email address (e.g., name@example.com)';
+          emailError.style.display = 'block';
+        }
+        emailInput.setAttribute('aria-invalid', 'true');
+        emailInput.classList.add('invalid');
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        msg.textContent = "Please enter a valid email address.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+        emailInput.focus();
+        return;
+      }
+      if (emailError) emailError.style.display = 'none';
+      emailInput.setAttribute('aria-invalid', 'false');
+      emailInput.classList.remove('invalid');
+
+      // Validate password
+      if (!password || password.length < 8) {
+        if (passwordError) {
+          passwordError.textContent = "Password must be at least 8 characters long.";
+          passwordError.style.display = "block";
+        }
+        passwordInput.setAttribute('aria-invalid', 'true');
+        passwordInput.classList.add('invalid');
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        msg.textContent = "Password must be at least 8 characters long.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+        passwordInput.focus();
+        return;
+      }
+      if (passwordError) passwordError.style.display = "none";
+      passwordInput.setAttribute('aria-invalid', 'false');
+      passwordInput.classList.remove('invalid');
+
+      try {
+        console.log('Sending signup request...'); // Debug log
+        
+        if (typeof fetchWithTimeout !== 'function') {
+          console.error('fetchWithTimeout function not found! Check if fetch-with-timeout.js is loaded.');
+          throw new Error('Page error: network script not loaded. Please refresh the page.');
+        }
+        
+        const res = await fetchWithTimeout("/api/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: fullName, email, password }),
+        }, 10000);
+        
+        console.log('Signup response received:', res.status, res.statusText); // Debug log
+
+        if (!res.ok) {
+          let errorMessage = "Something went wrong. Please try again.";
+          let errorData = null;
+          try {
+            errorData = await res.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (_) {
+            if (res.status === 400) {
+              errorMessage = "Invalid input. Please check your details and try again.";
+            } else if (res.status === 409) {
+              errorMessage = "An account with this email already exists.";
+            } else if (res.status === 429) {
+              errorMessage = "Too many signup attempts. Please try again later.";
+            } else if (res.status >= 500) {
+              errorMessage = "Server error. Please try again later.";
+            }
+          }
+          
+          // Handle existing account with special message and redirect
+          if (res.status === 409 && errorData && errorData.existingAccount) {
+            const isFromBooking = document.getElementById('email')?.getAttribute('data-from-booking') === 'true';
+            if (isFromBooking && errorData.redirectTo) {
+              msg.style.display = "block";
+              msg.style.color = "#c33";
+              msg.textContent = errorMessage + " Redirecting to sign in...";
+              setTimeout(() => {
+                window.location.href = errorData.redirectTo;
+              }, 2000);
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Create Account";
+              }
+              return;
+            }
+          }
+          
+          throw new Error(errorMessage);
+        }
+
+        let data;
+        try {
+          data = await res.json();
+        } catch (jsonErr) {
+          throw new Error("Invalid response from server. Please try again.");
+        }
+
+        // Account created successfully - user is automatically logged in via session
+        msg.style.display = "block";
+        msg.style.color = "#28a745";
+        const isFromBooking = document.getElementById('email')?.getAttribute('data-from-booking') === 'true';
+        const redirectTo = (data && data.redirectTo) || (isFromBooking ? 'my-bookings.html' : 'account.html');
+        msg.textContent = "Account created successfully! Redirecting...";
+        // Redirect based on context (booking flow goes to my-bookings, normal signup goes to account)
+        setTimeout(() => {
+          window.location.href = redirectTo;
+        }, 1000);
+      } catch (err) {
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+          msg.textContent = 'Request timed out. Please check your internet connection and try again.';
+        } else if (err.message && err.message.includes("Failed to fetch")) {
+          msg.textContent = "Unable to connect to the server. Please check your internet connection and try again.";
+        } else {
+          msg.textContent = err.message || "Failed to create account. Please try again.";
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+      }
+    });
+
+    // Add real-time email validation
+    if (emailInput && emailError) {
+      emailInput.addEventListener('blur', function() {
+        validateEmailInput(emailInput, emailError);
+      });
+      emailInput.addEventListener('input', function() {
+        if (this.value.trim().length > 0) {
+          validateEmailInput(emailInput, emailError);
+        } else {
+          emailError.style.display = 'none';
+          this.classList.remove('valid', 'invalid');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

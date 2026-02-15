@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Admin panel for managing tutoring slots and bookings.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/admin.html">
+  
+  <title>Admin - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/client-logger.js"></script>
+  <script src="/load-navigation.js" defer></script>
+  <style>
+    body { background: var(--background-gray); }
+    .wrap { max-width: 1000px; margin: 20px auto; background: #fff; border-radius: var(--border-radius); padding: var(--spacing-lg); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-sm); }
+    input, button { padding: 10px; border: 1px solid #ccc; border-radius: var(--border-radius); }
+    table { width: 100%; border-collapse: collapse; margin-top: var(--spacing-md); }
+    th, td { border-bottom: 1px solid #eee; text-align: left; padding: 8px; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <main id="main-content" class="wrap" role="main">
+    <h1 class="section-title">Admin: Manage Slots</h1>
+    <section aria-labelledby="slot-generation-title">
+      <h2 id="slot-generation-title" class="sr-only">Slot Generation</h2>
+      <div class="row" role="group" aria-label="Slot generation parameters">
+        <label for="slotCalendar">Calendar</label>
+        <select id="slotCalendar" aria-label="Session type / calendar (required)" required>
+          <option value="">— Select calendar —</option>
+          <option value="gcse-maths-1to1">GCSE Maths 1-1</option>
+          <option value="gcse-physics-1to1">GCSE Physics 1-1</option>
+          <option value="gcse-maths-group">GCSE Maths Group</option>
+          <option value="gcse-physics-group">GCSE Physics Group</option>
+          <option value="alevel-maths-1to1">A Level Maths 1-1</option>
+          <option value="alevel-further-maths-1to1">A Level Further Maths 1-1</option>
+          <option value="alevel-physics-1to1">A Level Physics 1-1</option>
+          <option value="alevel-maths-group">A Level Maths Group</option>
+          <option value="alevel-further-maths-group">A Level Further Maths Group</option>
+          <option value="alevel-physics-group">A Level Physics Group</option>
+        </select>
+        <label for="slotDate" class="sr-only">Date</label>
+        <input id="slotDate" type="date" aria-label="Date for slot generation"/>
+        <label for="slotTime" class="sr-only">Time</label>
+        <input id="slotTime" type="time" aria-label="Time for slot generation"/>
+      </div>
+      <div class="admin-actions" role="group" aria-label="Admin actions">
+        <button id="genBtn" class="btn btn-primary" aria-label="Generate time slots for the specified date range">Generate Slots</button>
+      </div>
+      <div id="status" class="admin-status" role="status" aria-live="polite" aria-atomic="true"></div>
+    </section>
+
+    <section aria-labelledby="slots-title">
+      <h2 id="slots-title" class="section-title-spacing">Manage Slots</h2>
+      <div style="margin-bottom: 1rem;">
+        <label for="slotViewDate" class="sr-only">View slots for date</label>
+        <input id="slotViewDate" type="date" style="margin-right: 0.5rem;" aria-label="View slots for this date"/>
+        <button id="viewSlotsBtn" class="btn btn-secondary" style="margin-right: 0.5rem;" aria-label="View slots for selected date">View Slots</button>
+        <button id="refreshSlotsBtn" class="btn btn-secondary" aria-label="Refresh slots list">Refresh</button>
+      </div>
+      <div id="slotsStatus" class="admin-status" role="status" aria-live="polite" aria-atomic="true"></div>
+      <table role="table" aria-label="Available slots" style="margin-top: 1rem;">
+        <thead><tr role="row"><th role="columnheader">Date & Time</th><th role="columnheader">Service</th><th role="columnheader">Status</th><th role="columnheader">Action</th></tr></thead>
+        <tbody id="slotsBody" role="rowgroup">
+        <tr>
+          <td colspan="4" class="table-cell-center">
+            <div class="empty-state no-padding">
+              <div class="empty-state-icon large"><i class="fas fa-calendar"></i></div>
+              <div class="empty-state-title">No slots loaded</div>
+              <div class="empty-state-message small">Select a date and click "View Slots" to see available slots.</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </section>
+
+    <section aria-labelledby="bookings-title">
+      <h2 id="bookings-title" class="section-title-spacing">All Bookings</h2>
+      <div style="margin-bottom: 1rem;">
+        <button id="refreshBtn" class="btn btn-secondary" aria-label="Refresh and reload all bookings">Refresh Bookings</button>
+      </div>
+      <table role="table" aria-label="All tutoring bookings">
+        <thead><tr role="row"><th role="columnheader">When</th><th role="columnheader">Service</th><th role="columnheader">Email</th><th role="columnheader">Amount</th></tr></thead>
+        <tbody id="bookingsBody" role="rowgroup">
+        <tr>
+          <td colspan="4" class="table-cell-center">
+            <div class="empty-state no-padding">
+              <div class="empty-state-icon large"><i class="fas fa-inbox"></i></div>
+              <div class="empty-state-title">No bookings loaded</div>
+              <div class="empty-state-message small">Click "Refresh Bookings" to load all bookings from the database.</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/admin.js"></script>
+  <script>
+    // Check if admin is authenticated, redirect to login if not
+    (async () => {
+      try {
+        const res = await fetchWithTimeout('/admin/check-auth', {}, 5000);
+        if (!res.ok) {
+          window.location.href = '/admin-login.html';
+        }
+      } catch (err) {
+        window.location.href = '/admin-login.html';
+      }
+    })();
+  </script>
+</body>
+</html>

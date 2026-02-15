@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Your tutoring session booking has been confirmed. Thank you for booking with Louis Perrin Tutor.">
+  <meta name="keywords" content="booking confirmed, tutoring session confirmed">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/confirmation.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/confirmation.html">
+  <meta property="og:title" content="Booking Confirmed - Louis Perrin Tutor">
+  <meta property="og:description" content="Your tutoring session booking has been confirmed. Thank you for booking with Louis Perrin Tutor.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Booking Confirmed - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Your tutoring session booking has been confirmed.">
+  
+  <title>Booking Confirmed - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body { background: var(--background-gray); }
+    .wrap { max-width: 720px; margin: 24px auto; background:#fff; border-radius: 12px; padding: var(--spacing-xl); box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align:center; }
+    .big { font-size: 1.4rem; margin-bottom: 12px; }
+    .muted { color: var(--text-secondary); margin-bottom: 18px; }
+    .policy-note { color: var(--text-secondary); font-size: 0.9rem; margin-top: 18px; margin-bottom: 18px; }
+    .actions { display:flex; gap:24px; justify-content:center; margin-top: 16px; }
+  </style>
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div data-include="navigation" data-nav-type="confirmation"></div>
+    <main id="main-content" class="wrap" role="main">
+      <h1 class="section-title">Thank You — Your Booking Is Confirmed</h1>
+      <p class="big" aria-label="Booking confirmed"><i class="fa fa-check-circle success-icon" aria-hidden="true"></i></p>
+      <p class="muted">A confirmation email has been sent to <span id="emailOut">your email address</span>.</p>
+      <p class="policy-note">No refund if cancelled within 24 hours of the lesson.</p>
+      <div class="actions" role="group" aria-label="Navigation actions">
+        <a id="viewBtn" class="btn btn-primary" href="/my-bookings.html" aria-label="View your bookings" style="display: none;">View My Bookings</a>
+        <a class="btn btn-secondary" href="tutoring.html" aria-label="Book another tutoring session">Book Another Session</a>
+      </div>
+      <div id="accountUpgradeSection" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee; display: none;">
+        <h2 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-primary, #333);">Manage your bookings (optional)</h2>
+        <p style="color: var(--text-secondary, #666); font-size: 0.9rem; margin-bottom: 1rem;">Create a password to view your bookings anytime. We'll use the email you paid with.</p>
+        <a href="/singup.html?from=booking" class="btn btn-secondary" style="display: inline-block;" aria-label="Create password and view bookings">Create password & view bookings</a>
+      </div>
+    </main>
+    <script>
+      const u = new URL(window.location.href);
+      const email = u.searchParams.get('email');
+      if (email) {
+        document.getElementById('emailOut').textContent = email;
+      }
+      
+      // Conditionally show/hide elements based on login state
+      const isLoggedIn = window.__IS_LOGGED_IN__ || false;
+      const viewBtn = document.getElementById('viewBtn');
+      const accountUpgradeSection = document.getElementById('accountUpgradeSection');
+      
+      if (isLoggedIn) {
+        // Logged-in users: show "View My Bookings" button, hide upgrade section
+        if (viewBtn) {
+          viewBtn.style.display = '';
+        }
+        if (accountUpgradeSection) {
+          accountUpgradeSection.style.display = 'none';
+        }
+      } else {
+        // Guest users: hide "View My Bookings" button, show upgrade section
+        if (viewBtn) {
+          viewBtn.style.display = 'none';
+        }
+        if (accountUpgradeSection) {
+          accountUpgradeSection.style.display = 'block';
+        }
+      }
+      
+      // Track booking confirmation page view (indicates successful booking)
+      // Note: Actual booking completion is tracked when payment succeeds
+      if (window.trackEvent && email) {
+        window.trackEvent('booking_confirmed', {
+          email_provided: true,
+        });
+      }
+    </script>
+  </body>
+  </html>

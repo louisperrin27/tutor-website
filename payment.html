@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Complete your tutoring session payment securely. Enter your details and payment information to confirm your booking.">
+  <meta name="keywords" content="tutoring payment, book tutoring session, secure payment">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/payment.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/payment.html">
+  <meta property="og:title" content="Payment - Louis Perrin Tutor">
+  <meta property="og:description" content="Complete your tutoring session payment securely.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Payment - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Complete your tutoring session payment securely.">
+  
+  <title>Payment - Louis Perrin Tutor</title>
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <style>
+    /* Page layout */
+    body {
+      background: var(--background-gray);
+    }
+
+    .checkout-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--spacing-md);
+    }
+
+    /* Panels */
+    .panel {
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      padding: var(--spacing-lg);
+    }
+
+    .panel h2 {
+      font-size: 1.25rem;
+      margin-bottom: var(--spacing-sm);
+      color: var(--text-primary);
+    }
+
+    .step-label {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    /* Form fields */
+    .form-group { margin-bottom: var(--spacing-sm); }
+    .form-group label {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-sm);
+    }
+
+    .checkout-actions {
+      margin-top: var(--spacing-md);
+      display: flex;
+      gap: var(--spacing-sm);
+      align-items: center;
+    }
+
+    .secure-text {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* Error message styling */
+    .error-message {
+      background: #fee;
+      border: 1px solid #fcc;
+      border-radius: var(--border-radius);
+      padding: 12px 16px;
+      margin-bottom: var(--spacing-md);
+      color: #c33;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .error-message::before {
+      content: "⚠";
+      font-size: 1.2rem;
+    }
+    .error-message.hidden {
+      display: none;
+    }
+
+    /* Disabled button state */
+    #payBtn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Order summary */
+    .order-header { margin-bottom: var(--spacing-sm); }
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+      color: var(--text-primary);
+    }
+    .order-muted { color: var(--text-secondary); }
+    .order-total {
+      border-top: 1px solid #eee;
+      margin-top: var(--spacing-sm);
+      padding-top: var(--spacing-sm);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 900px) {
+      .checkout-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+      <script src="fetch-with-timeout.js"></script>
+      <script src="/analytics.js" defer></script>
+      <script src="/client-logger.js"></script>
+      <script src="/load-navigation.js" defer></script>
+</head>
+
+<body>
+  <!-- Site header for consistency -->
+  <div data-include="navigation" data-nav-type="standard"></div>
+
+  <main class="checkout-container">
+    <div class="checkout-grid">
+      <!-- Left: Email + Payment -->
+      <section class="panel">
+        <div class="payment-header">
+          <h2>Checkout</h2>
+          <p class="order-muted">Please enter your email address and payment details to complete your booking.</p>
+        </div>
+
+        <form id="paymentForm">
+          <!-- Error message container -->
+          <div id="errorMessage" class="error-message" role="alert" aria-live="assertive" style="display: none;"></div>
+          
+          <!-- 1. Email -->
+          <p class="step-label">1. Enter your email</p>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email address" required 
+                   pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+                   title="Please enter a valid email address (e.g., name@example.com)"
+                   aria-required="true" 
+                   aria-describedby="emailError" />
+            <span class="field-error email-error" data-field="email" id="emailError" role="alert" aria-live="polite"></span>
+          </div>
+
+          <!-- 2. Payment Method -->
+          <p class="step-label step-label-spacing" id="payment-method-label">2. Enter payment details</p>
+          <div class="form-group">
+            <label for="cardName">Name on Card</label>
+            <input type="text" id="cardName" placeholder="Full name" required 
+                   aria-required="true" 
+                   aria-describedby="cardNameError" />
+            <span class="field-error" data-field="cardName" id="cardNameError" role="alert" aria-live="polite"></span>
+          </div>
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" inputmode="numeric" autocomplete="cc-number" 
+                   placeholder="1234 5678 9012 3456" required 
+                   pattern="[0-9\s]{13,19}" 
+                   title="Please enter a valid card number"
+                   aria-required="true" 
+                   aria-describedby="cardNumberError" />
+            <span class="field-error" data-field="cardNumber" id="cardNumberError" role="alert" aria-live="polite"></span>
+          </div>
+          <div class="grid-2" role="group" aria-labelledby="payment-method-label">
+            <div class="form-group">
+              <label for="exp">Expiry</label>
+              <input type="text" id="exp" inputmode="numeric" autocomplete="cc-exp" 
+                     placeholder="MM/YY" required 
+                     pattern="(0[1-9]|1[0-2])\/[0-9]{2}" 
+                     title="Please enter expiry in MM/YY format"
+                     aria-required="true" 
+                     aria-describedby="expError" />
+              <span class="field-error" data-field="exp" id="expError" role="alert" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label for="cvc">CVC</label>
+              <input type="text" id="cvc" inputmode="numeric" autocomplete="cc-csc" 
+                     placeholder="123" required 
+                     pattern="[0-9]{3,4}" 
+                     title="Please enter a valid CVC (3-4 digits)"
+                     aria-required="true" 
+                     aria-describedby="cvcError" />
+              <span class="field-error" data-field="cvc" id="cvcError" role="alert" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="postalCode">Postal Code</label>
+            <input type="text" id="postalCode" inputmode="numeric" autocomplete="postal-code" 
+                   placeholder="SW1A 1AA" required 
+                   pattern="[A-Za-z0-9\s]{5,10}" 
+                   title="Please enter a valid postal code"
+                   aria-required="true" 
+                   aria-describedby="postalCodeError" />
+            <span class="field-error" data-field="postalCode" id="postalCodeError" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="checkout-actions">
+            <button type="submit" class="btn btn-primary" id="payBtn" aria-label="Submit payment">Pay Now</button>
+            <span class="secure-text" aria-label="Secure checkout"><i class="fa fa-lock" aria-hidden="true"></i> Secure checkout</span>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right: Order details -->
+      <aside class="panel">
+        <div class="order-header">
+          <h2>Order Details</h2>
+        </div>
+
+        <div class="order-row">
+          <span>Plan</span>
+          <span id="summaryPlanName">Free Session</span>
+        </div>
+        <div class="order-row order-muted" id="dateRow">
+          <span>Date</span>
+          <span id="summaryDate">TBC</span>
+        </div>
+        <div class="order-row order-muted" id="timeRow">
+          <span>Time</span>
+          <span id="summaryTime">TBC</span>
+        </div>
+        <div class="order-row">
+          <span>Price</span>
+          <span id="summaryPlanPrice">£0.00</span>
+        </div>
+        <div class="order-row order-muted">
+          <span>Subtotal</span>
+          <span id="subtotal">£0.00</span>
+        </div>
+        <div class="order-row order-muted">
+          <span>Shipping</span>
+          <span>Not required</span>
+        </div>
+        <div class="order-row order-total">
+          <span>Total</span>
+          <span id="orderTotal">£0.00</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="/email-validation.js"></script>
+  <script src="/form-validation.js" defer></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const rawPlanKey = (params.get('plan') || 'free').toLowerCase();
+    const priceParam = Number(params.get('price'));
+    const qtyParam = params.get('qty');
+    const dateParam = params.get('date');
+    const timeParam = params.get('time');
+    const displayDateParam = params.get('displayDate');
+    const slotId = params.get('slot_id');
+    const slotStart = params.get('slot_start');
+
+    const planAliases = {
+      '1-1': 'one_to_one',
+      '1_to_1': 'one_to_one',
+      single: 'one_to_one',
+      pack: 'pack-1-1'
+    };
+    const planKey = planAliases[rawPlanKey] || rawPlanKey;
+
+    const plans = {
+      free:       { name: 'Free',                         price: 0,   showSchedule: true },
+      one_to_one: { name: '1-to-1 Lesson',                price: 40,  showSchedule: true },
+      group:      { name: 'Group Session',                price: 20,  showSchedule: true },
+      'pack-1-1': { name: '1-to-1 Pack (5 + 1 free)',     price: 200, showSchedule: false },
+      'gcse-free': { name: 'GCSE Free',                    price: 0,   showSchedule: true },
+      'gcse-one_to_one': { name: 'GCSE 1-to-1',          price: 35,  showSchedule: true },
+      'gcse-group': { name: 'GCSE Group',                 price: 20,  showSchedule: true },
+      'gcse-maths-bundle': { name: 'GCSE Maths Bundle (6 sessions)', price: 175, showSchedule: true },
+      'gcse-physics-bundle': { name: 'GCSE Physics Bundle (6 sessions)', price: 175, showSchedule: true },
+      'a-level-free': { name: 'A-Level Free',             price: 0,   showSchedule: true },
+      'a-level-one_to_one': { name: 'A-Level 1-to-1',     price: 45,  showSchedule: true },
+      'a-level-group': { name: 'A-Level Group',           price: 25,  showSchedule: true },
+      'alevel-maths-bundle': { name: 'A Level Maths Bundle (6 sessions)', price: 225, showSchedule: true },
+      'alevel-further-maths-bundle': { name: 'A Level Further Maths Bundle (6 sessions)', price: 225, showSchedule: true },
+      'alevel-physics-bundle': { name: 'A Level Physics Bundle (6 sessions)', price: 225, showSchedule: true }
+    };
+
+    const selected = plans[planKey] || plans.free;
+    const amount = Number.isNaN(priceParam) ? selected.price : priceParam;
+    const fmt = (n) => `£${n.toFixed(2)}`;
+
+    const planLabel = planKey === 'pack-1-1' && qtyParam
+      ? `${selected.name} — ${qtyParam} sessions`
+      : selected.name;
+
+    // Add real-time email validation
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+    if (emailInput && emailError) {
+      emailInput.addEventListener('blur', function() {
+        validateEmailInput(emailInput, emailError);
+      });
+      emailInput.addEventListener('input', function() {
+        if (this.value.trim().length > 0) {
+          validateEmailInput(emailInput, emailError);
+        } else {
+          emailError.style.display = 'none';
+          this.classList.remove('valid', 'invalid');
+        }
+      });
+    }
+
+    document.getElementById('summaryPlanName').textContent = planLabel;
+    document.getElementById('summaryPlanPrice').textContent = fmt(amount);
+    document.getElementById('subtotal').textContent = fmt(amount);
+    document.getElementById('orderTotal').textContent = fmt(amount);
+
+    const dateRow = document.getElementById('dateRow');
+    const timeRow = document.getElementById('timeRow');
+    const summaryDate = document.getElementById('summaryDate');
+    const summaryTime = document.getElementById('summaryTime');
+
+    const showSchedule = selected.showSchedule && dateParam && timeParam;
+    if (showSchedule) {
+      if (displayDateParam) {
+        summaryDate.textContent = displayDateParam;
+      } else {
+        const dateObj = new Date(`${dateParam}T00:00:00`);
+        summaryDate.textContent = isNaN(dateObj.getTime())
+          ? dateParam
+          : dateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+      }
+      summaryTime.textContent = timeParam;
+    } else {
+      dateRow.style.display = 'none';
+      timeRow.style.display = 'none';
+    }
+
+    // Helper function to show error messages
+        function showError(message) {
+          const errorEl = document.getElementById('errorMessage');
+          errorEl.textContent = message;
+          errorEl.classList.add('show', 'alert-error');
+          errorEl.classList.remove('hidden');
+          // Scroll to error message
+          errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          // Focus on error for screen readers and keyboard users
+          errorEl.focus();
+          // Set tabindex to make it focusable if not already
+          if (!errorEl.hasAttribute('tabindex')) {
+            errorEl.setAttribute('tabindex', '-1');
+          }
+        }
+
+        function hideError() {
+          const errorEl = document.getElementById('errorMessage');
+          errorEl.classList.remove('show', 'alert-error', 'alert-success', 'alert-warning');
+          errorEl.classList.add('hidden');
+          errorEl.textContent = '';
+        }
+
+    document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError(); // Clear any previous errors
+      
+      const email = document.getElementById('email').value.trim();
+      const name = document.getElementById('cardName').value.trim();
+      const postalCode = document.getElementById('postalCode').value.trim();
+      const payBtn = document.getElementById('payBtn');
+      
+      // Disable button during processing
+      payBtn.disabled = true;
+      payBtn.textContent = 'Processing...';
+
+      // Validate email using shared validation
+      const emailInput = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+      if (!isValidEmail(email)) {
+        if (emailError) {
+          emailError.textContent = 'Please enter a valid email address (e.g., name@example.com)';
+          emailError.style.display = 'block';
+        }
+        emailInput.setAttribute('aria-invalid', 'true');
+        emailInput.classList.add('invalid');
+        showError('Please enter a valid email address.');
+        payBtn.disabled = false;
+        payBtn.textContent = 'Pay Now';
+        emailInput.focus();
+        return;
+      }
+      if (emailError) emailError.style.display = 'none';
+      emailInput.setAttribute('aria-invalid', 'false');
+      emailInput.classList.remove('invalid');
+
+      if (slotId && (planKey === 'free' || planKey === 'gcse-free' || planKey === 'a-level-free')) {
+        try {
+          const res = await fetchWithTimeout('/api/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slotId: Number(slotId), email, amount_pence: 0 })
+          }, 10000);
+          
+          if (!res.ok) {
+            let errorMessage = 'Unable to book this free slot. Please try again.';
+            try {
+              const errorData = await res.json();
+              errorMessage = errorData.message || errorMessage;
+            } catch (_) {
+              if (res.status === 400) {
+                errorMessage = 'Invalid booking request. Please check your details and try again.';
+              } else if (res.status === 404) {
+                errorMessage = 'This time slot is no longer available. Please select another time.';
+              } else if (res.status === 409) {
+                errorMessage = 'This slot has already been booked. Please select another time.';
+              } else if (res.status >= 500) {
+                errorMessage = 'Server error. Please try again later.';
+              }
+            }
+            throw new Error(errorMessage);
+          }
+          
+          let data;
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            throw new Error('Invalid response from server. Please try again.');
+          }
+          
+          // Track free booking completion
+          if (window.trackBooking) {
+            window.trackBooking('free', {
+              slot_id: slotId,
+              value: 0,
+              currency: 'GBP',
+            });
+          }
+          const confirmUrl = new URL('confirmation.html', window.location.origin);
+          confirmUrl.searchParams.set('email', email);
+          window.location.href = confirmUrl.toString();
+          return;
+        } catch (err) {
+          if (window.clientLogger) {
+            window.clientLogger.apiError('POST', '/api/book', err, { slotId, email });
+          } else {
+            console.error(err);
+          }
+          if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+            showError('Request timed out. Please check your internet connection and try again.');
+          } else if (err.message && err.message.includes('Failed to fetch')) {
+            showError('Unable to connect to the server. Please check your internet connection and try again.');
+          } else {
+            showError(err.message || 'Booking failed. Please check your connection and try again.');
+          }
+          payBtn.disabled = false;
+          payBtn.textContent = 'Pay Now';
+          return;
+        }
+      }
+
+      if (slotId) {
+        try {
+          const res = await fetchWithTimeout('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slotId: Number(slotId), email, plan: planKey, price: amount })
+          }, 10000);
+          
+          if (!res.ok) {
+            let errorMessage = 'Unable to start payment. Please try again.';
+            try {
+              const errorData = await res.json();
+              errorMessage = errorData.message || errorMessage;
+            } catch (_) {
+              if (res.status === 400) {
+                errorMessage = 'Invalid payment request. Please check your details and try again.';
+              } else if (res.status === 404) {
+                errorMessage = 'This time slot is no longer available. Please select another time.';
+              } else if (res.status === 409) {
+                errorMessage = 'This slot has already been booked. Please select another time.';
+              } else if (res.status >= 500) {
+                errorMessage = 'Server error. Please try again later.';
+              }
+            }
+            throw new Error(errorMessage);
+          }
+          
+          let data;
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            throw new Error('Invalid response from server. Please try again.');
+          }
+          
+          if (!data.url) {
+            throw new Error('Payment session created but no redirect URL received. Please try again.');
+          }
+          
+          // Track payment initiation
+          if (window.trackPayment) {
+            window.trackPayment('stripe', {
+              slot_id: slotId,
+              plan: planKey,
+              amount: amount,
+              currency: 'GBP',
+            });
+          }
+          
+          window.location.href = data.url;
+          return;
+        } catch (err) {
+          if (window.clientLogger) {
+            window.clientLogger.apiError('POST', '/api/create-checkout-session', err, { slotId, email });
+          } else {
+            console.error(err);
+          }
+          if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+            showError('Request timed out. Please check your internet connection and try again.');
+          } else if (err.message && err.message.includes('Failed to fetch')) {
+            showError('Unable to connect to the server. Please check your internet connection and try again.');
+          } else {
+            showError(err.message || 'Payment start failed. Please check your connection and try again.');
+          }
+          payBtn.disabled = false;
+          payBtn.textContent = 'Pay Now';
+          return;
+        }
+      }
+
+      // Fallback for non-slot bookings (pack purchases)
+      showError('Please select a time slot to continue with payment.');
+      payBtn.disabled = false;
+      payBtn.textContent = 'Pay Now';
+    });
+  </script>
+</body>
+</html>

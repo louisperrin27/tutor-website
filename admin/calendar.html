@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Admin calendar view for all tutoring bookings.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/admin/calendar.html">
+  
+  <title>Admin Calendar - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css' rel='stylesheet' />
+  <style>
+    body { background: var(--background-gray); }
+    .wrap { max-width: 1000px; margin: 20px auto; background: #fff; border-radius: var(--border-radius); padding: var(--spacing-lg); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    #calendar { max-width: 900px; margin: 0 auto; }
+    .controls { display:flex; gap:8px; justify-content:center; margin-bottom: 10px; }
+    input { padding:10px; border:1px solid #ccc; border-radius: var(--border-radius); }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <main id="main-content" class="wrap" role="main">
+    <h1 class="section-title">Admin — All Bookings</h1>
+    <div id="calendarError" class="error-message-container alert-error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    <div class="controls" role="group" aria-label="Calendar controls">
+      <label for="adminKey" class="sr-only">Admin Key</label>
+      <input id="adminKey" placeholder="Admin Key" aria-label="Admin authentication key" />
+      <button id="loadBtn" class="btn btn-primary" aria-label="Load bookings calendar">Load</button>
+    </div>
+    <div id="calendar" role="application" aria-label="Bookings calendar"></div>
+    <div id="emptyStatePlaceholder" class="empty-state hidden margin-top">
+      <div class="empty-state-icon"><i class="fas fa-calendar-check"></i></div>
+      <div class="empty-state-title">No bookings scheduled</div>
+      <div class="empty-state-message">There are no bookings in the calendar yet. Bookings will appear here once students make reservations.</div>
+    </div>
+  </div>
+  <script src="../analytics.js" defer></script>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+  <script>
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'timeGridWeek',
+      height: 'auto',
+      headerToolbar: { left: 'prev,next today', center: 'title', right: 'timeGridWeek,timeGridDay' },
+      weekends: true
+    });
+    calendar.render();
+    document.getElementById('loadBtn').onclick = async () => {
+      const key = document.getElementById('adminKey').value.trim();
+      const loadBtn = document.getElementById('loadBtn');
+      const errorEl = document.getElementById('calendarError');
+      
+      // Hide previous errors
+      if (errorEl) errorEl.style.display = 'none';
+      
+      // Show loading state
+      if (loadBtn) {
+        loadBtn.disabled = true;
+        loadBtn.textContent = 'Loading...';
+      }
+      calendar.removeAllEvents();
+      
+      try {
+        if (!key) {
+          throw new Error('Admin key is required.');
+        }
+        
+        const res = await fetchWithTimeout(`/api/calendar?adminKey=${encodeURIComponent(key)}`, {}, 10000);
+        
+        if (!res.ok) {
+          let errorMessage = 'Failed to load bookings.';
+          try {
+            const errorData = await res.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (_) {
+            if (res.status === 401 || res.status === 403) {
+              errorMessage = 'Invalid admin key. Please check and try again.';
+            } else if (res.status >= 500) {
+              errorMessage = 'Server error. Please try again later.';
+            }
+          }
+          throw new Error(errorMessage);
+        }
+        
+        let data;
+        try {
+          data = await res.json();
+        } catch (jsonErr) {
+          throw new Error('Invalid response from server. Please try again.');
+        }
+        
+        if (!Array.isArray(data)) {
+          throw new Error('Unexpected response format from server.');
+        }
+        
+        if (data.length === 0) {
+          // Show empty state message
+          const emptyStatePlaceholder = document.getElementById('emptyStatePlaceholder');
+          if (emptyStatePlaceholder) {
+            emptyStatePlaceholder.classList.remove('hidden');
+          }
+          return;
+        }
+        
+        // Hide empty state if we have data
+        const emptyStatePlaceholder = document.getElementById('emptyStatePlaceholder');
+        if (emptyStatePlaceholder) {
+          emptyStatePlaceholder.style.display = 'none';
+        }
+        
+        const events = data.map(b => ({
+          title: `${b.service_name} (${b.user_email})`,
+          start: b.start,
+          end: b.end,
+          color: '#4285F4'
+        }));
+        calendar.addEventSource(events);
+      } catch (err) {
+        if (window.clientLogger) {
+          window.clientLogger.apiError('GET', '/api/calendar', err, { adminKey: key ? 'provided' : 'missing' });
+        } else {
+          console.error('Failed to load calendar', err);
+        }
+        if (errorEl) {
+          if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+              errorEl.textContent = '✗ Request timed out. Please check your internet connection and try again.';
+            } else if (err.message && err.message.includes('Failed to fetch')) {
+              errorEl.textContent = '✗ Unable to connect to the server. Please check your internet connection and try again.';
+            } else {
+              errorEl.textContent = '✗ ' + (err.message || 'Failed to load bookings. Please check your admin key and try again.');
+            }
+          errorEl.classList.add('show');
+        }
+      } finally {
+        if (loadBtn) {
+          loadBtn.disabled = false;
+          loadBtn.textContent = 'Load';
+        }
+      }
+    };
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="View your booked tutoring sessions. Check your schedule and manage your upcoming lessons.">
+  <meta name="keywords" content="my bookings, tutoring schedule, booked sessions">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/my-bookings.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/my-bookings.html">
+  <meta property="og:title" content="My Bookings - Louis Perrin Tutor">
+  <meta property="og:description" content="View your booked tutoring sessions. Check your schedule and manage your upcoming lessons.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="My Bookings - Louis Perrin Tutor">
+  <meta name="twitter:description" content="View your booked tutoring sessions. Check your schedule and manage your upcoming lessons.">
+  
+  <title>My Bookings - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/client-logger.js"></script>
+  <script src="/load-navigation.js" defer></script>
+  <style>
+    body { background: var(--background-gray); }
+    .wrap { max-width: 800px; margin: 20px auto; background: #fff; border-radius: 12px; padding: var(--spacing-lg); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; margin-bottom: 2rem; }
+    th, td { border-bottom: 1px solid #eee; text-align: left; padding: 16px 12px; }
+    th { font-weight: 600; color: var(--text-primary, #333); }
+    .bookings-section { margin-bottom: 4rem; }
+    .bookings-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-primary, #333); }
+    .book-slot-button { margin-top: 2rem; }
+    .loading-state { text-align: center; padding: 2rem; color: var(--text-secondary, #666); }
+    .error-state { text-align: center; padding: 2rem; color: #c33; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div data-include="navigation" data-nav-type="bookings"></div>
+
+  <main id="main-content" class="wrap" role="main">
+    <h1 class="section-title">My Bookings</h1>
+    <div id="loadingState" class="loading-state">
+      <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading bookings...
+    </div>
+    <div id="bookingsContent" style="display: none;">
+      <div class="bookings-section">
+        <h2>Future bookings</h2>
+        <table id="futureBookingsTable" role="table" aria-label="Future bookings">
+          <thead>
+            <tr role="row">
+              <th role="columnheader">Activity</th>
+              <th role="columnheader">Date</th>
+              <th role="columnheader">Time</th>
+              <th role="columnheader">Action</th>
+            </tr>
+          </thead>
+          <tbody id="futureBookingsBody" role="rowgroup">
+          </tbody>
+        </table>
+      </div>
+      <div class="bookings-section">
+        <h2>Previous bookings</h2>
+        <table id="previousBookingsTable" role="table" aria-label="Previous bookings">
+          <thead>
+            <tr role="row">
+              <th role="columnheader">Activity</th>
+              <th role="columnheader">Date</th>
+              <th role="columnheader">Time</th>
+              <th role="columnheader">Action</th>
+            </tr>
+          </thead>
+          <tbody id="previousBookingsBody" role="rowgroup">
+          </tbody>
+        </table>
+        <div class="book-slot-button">
+          <a href="tutoring.html" class="btn btn-primary" aria-label="Book a new tutoring slot">Book a slot</a>
+        </div>
+      </div>
+    </div>
+    <div id="errorState" class="error-state" style="display: none;">
+      <p id="errorMessage"></p>
+    </div>
+  </main>
+
+  <script src="/my-bookings.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Get free educational content from Louis Perrin Tutor. Join the mailing list for exclusive resources and tutoring tips.">
+  <meta name="keywords" content="free tutoring content, educational resources, mailing list, tutor tips">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/free-content.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/free-content.html">
+  <meta property="og:title" content="Get Free Content - Louis Perrin Tutor">
+  <meta property="og:description" content="Get free educational content from Louis Perrin Tutor. Join the mailing list for exclusive resources.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Get Free Content - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Get free educational content from Louis Perrin Tutor.">
+  
+  <title>Get Free Content - Louis Perrin Tutor</title>
+
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+  <style>
+    body {
+      background: var(--background-gray, #f8f9fb);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hide the "Get free content" button on this page */
+    .join-btn {
+      display: none !important;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .free-content-panel {
+      background: white;
+      padding: var(--spacing-lg, 2rem);
+      border-radius: var(--border-radius, 8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .free-content-panel h1 {
+      font-size: 1.5rem;
+      color: var(--text-primary, #333);
+      margin-bottom: var(--spacing-xs, 0.5rem);
+    }
+
+    .free-content-panel p.subtitle {
+      color: var(--text-secondary, #666);
+      margin-bottom: var(--spacing-md, 1.5rem);
+      font-size: 0.95rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm, 12px);
+      margin-bottom: var(--spacing-md, 1.5rem);
+    }
+
+    .action-buttons .btn {
+      width: 100%;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--border-radius, 8px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--primary-blue, #0056ff);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-blue-hover, #0040d4);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary-blue, #0056ff);
+      border: 2px solid var(--primary-blue, #0056ff);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-blue, #0056ff);
+      color: white;
+    }
+
+    .mailing-list-info {
+      font-size: 0.85rem;
+      color: var(--text-secondary, #666);
+      margin-top: var(--spacing-sm, 12px);
+      font-style: italic;
+    }
+  </style>
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+</head>
+
+<body>
+  <div data-include="navigation" data-nav-type="standard"></div>
+  <main role="main">
+    <div class="free-content-panel">
+      <h1>Get Free Content</h1>
+      <p class="subtitle">Choose how you'd like to access free educational resources and tutoring tips.</p>
+
+      <div class="action-buttons">
+        <a href="/mailing-list.html" class="btn btn-primary" aria-label="Join mailing list for free tips">
+          Join mailing list
+        </a>
+        <p class="mailing-list-info">Free tips. No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

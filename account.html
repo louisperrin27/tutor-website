@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Your account dashboard for Louis Perrin Tutor. Manage your tutoring sessions and access exclusive resources.">
+  <meta name="keywords" content="account, dashboard, my account, tutoring account">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/account.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/account.html">
+  <meta property="og:title" content="My Account - Louis Perrin Tutor">
+  <meta property="og:description" content="Your account dashboard for managing tutoring sessions.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="My Account - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Your account dashboard.">
+  
+  <title>My Account - Louis Perrin Tutor</title>
+
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+  <style>
+    body {
+      background: var(--background-gray, #f8f9fb);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .account-container {
+      background: #fff;
+      border-radius: var(--border-radius, 10px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .account-container h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary, #333);
+    }
+
+    .account-container p {
+      color: var(--text-secondary, #666);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .account-info {
+      background: #f8f9fa;
+      border-radius: var(--border-radius, 6px);
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .account-info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .account-info-row:last-child {
+      border-bottom: none;
+    }
+
+    .account-info-label {
+      font-weight: 600;
+      color: var(--text-primary, #333);
+    }
+
+    .account-info-value {
+      color: var(--text-secondary, #666);
+    }
+
+    .account-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius, 6px);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--primary-blue, #0056ff);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-blue-hover, #0040d4);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary, #666);
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 2rem;
+      color: #c33;
+    }
+  </style>
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+</head>
+
+<body>
+  <div data-include="navigation" data-nav-type="standard"></div>
+  <main role="main">
+    <div class="account-container">
+      <h1>My Account</h1>
+      <div id="loadingState" class="loading-state">
+        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading account information...
+      </div>
+      <div id="accountContent" style="display: none;">
+        <p id="welcomeMessage">Welcome back!</p>
+        <div class="account-info">
+          <div class="account-info-row">
+            <span class="account-info-label">Name:</span>
+            <span class="account-info-value" id="accountName">-</span>
+          </div>
+          <div class="account-info-row">
+            <span class="account-info-label">Email:</span>
+            <span class="account-info-value" id="accountEmail">-</span>
+          </div>
+          <div class="account-info-row">
+            <span class="account-info-label">Member since:</span>
+            <span class="account-info-value" id="accountCreated">-</span>
+          </div>
+        </div>
+        <div class="account-actions">
+          <a href="/my-bookings.html" class="btn btn-primary" aria-label="View my bookings">
+            <i class="fas fa-calendar" aria-hidden="true"></i> My Bookings
+          </a>
+          <button id="logoutBtn" class="btn btn-secondary" aria-label="Sign out">
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sign Out
+          </button>
+        </div>
+      </div>
+      <div id="errorState" class="error-state" style="display: none;">
+        <p id="errorMessage"></p>
+        <a href="/login.html" class="btn btn-primary" style="margin-top: 1rem;">Go to Login</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function loadAccountInfo() {
+      const loadingState = document.getElementById('loadingState');
+      const accountContent = document.getElementById('accountContent');
+      const errorState = document.getElementById('errorState');
+      const errorMessage = document.getElementById('errorMessage');
+
+      try {
+        const res = await fetchWithTimeout('/api/account', {}, 10000);
+
+        if (res.status === 401) {
+          // Not logged in - redirect to login
+          loadingState.style.display = 'none';
+          errorState.style.display = 'block';
+          errorMessage.textContent = 'You must be signed in to view your account.';
+          return;
+        }
+
+        if (!res.ok) {
+          throw new Error('Failed to load account information');
+        }
+
+        let data;
+        try {
+          data = await res.json();
+        } catch {
+          throw new Error('Invalid response from server');
+        }
+
+        // Display account information
+        document.getElementById('welcomeMessage').textContent = `Welcome back, ${data.name || 'User'}!`;
+        document.getElementById('accountName').textContent = data.name || '-';
+        document.getElementById('accountEmail').textContent = data.email || '-';
+        
+        if (data.created_at) {
+          try {
+            const createdDate = new Date(data.created_at);
+            document.getElementById('accountCreated').textContent = createdDate.toLocaleDateString('en-GB', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+          } catch {
+            document.getElementById('accountCreated').textContent = data.created_at;
+          }
+        } else {
+          document.getElementById('accountCreated').textContent = '-';
+        }
+
+        loadingState.style.display = 'none';
+        accountContent.style.display = 'block';
+      } catch (err) {
+        loadingState.style.display = 'none';
+        errorState.style.display = 'block';
+        if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+          errorMessage.textContent = 'Request timed out. Please check your connection and try again.';
+        } else if (err.message && err.message.includes('Failed to fetch')) {
+          errorMessage.textContent = 'Unable to connect to server. Please check your connection.';
+        } else {
+          errorMessage.textContent = err.message || 'Failed to load account information.';
+        }
+      }
+    }
+
+    async function logout() {
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.disabled = true;
+        logoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Signing out...';
+      }
+
+      try {
+        const res = await fetchWithTimeout('/api/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        }, 10000);
+
+        // Redirect to login regardless of response (client-side session is cleared)
+        window.location.href = 'login.html';
+      } catch (err) {
+        // Even if logout fails, redirect to login
+        window.location.href = 'login.html';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAccountInfo();
+
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+      }
+    });
+  </script>
+</body>
+</html>

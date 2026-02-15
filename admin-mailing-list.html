@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Admin panel for viewing mailing list subscribers.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/admin-mailing-list.html">
+  
+  <title>Admin: Mailing List - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="/fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/client-logger.js"></script>
+  <style>
+    body { background: var(--background-gray, #f8f9fb); }
+    .wrap { 
+      max-width: 1200px; 
+      margin: 20px auto; 
+      background: #fff; 
+      border-radius: var(--border-radius, 8px); 
+      padding: var(--spacing-lg, 2rem); 
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06); 
+    }
+    .filters { 
+      display: grid; 
+      grid-template-columns: 2fr 1fr auto; 
+      gap: var(--spacing-sm, 12px); 
+      margin-bottom: var(--spacing-md, 1.5rem);
+      align-items: end;
+    }
+    .filters input, .filters select {
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: var(--border-radius, 8px); 
+      font-size: 0.95rem;
+    }
+    .filters label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary, #333);
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: var(--spacing-md, 1.5rem); 
+    }
+    th, td { 
+      border-bottom: 1px solid #eee; 
+      text-align: left; 
+      padding: 12px 8px; 
+      font-size: 0.9rem;
+    }
+    th { 
+      background: #f8f9fa; 
+      font-weight: 600; 
+      color: var(--text-primary, #333);
+      position: sticky;
+      top: 0;
+    }
+    tr:hover { background: #f8f9fa; }
+    .consent-yes { color: #28a745; font-weight: 500; }
+    .consent-no { color: #dc3545; font-weight: 500; }
+    .admin-status {
+      margin-top: var(--spacing-sm, 12px);
+      padding: 12px;
+      border-radius: var(--border-radius, 8px);
+      font-size: 0.9rem;
+    }
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    @media (max-width: 768px) {
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      table {
+        font-size: 0.85rem;
+      }
+      th, td {
+        padding: 8px 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <main id="main-content" class="wrap" role="main">
+    <h1 class="section-title">Admin: Mailing List Subscribers</h1>
+    
+    <section id="mainContentSection" aria-labelledby="filters-title">
+      <h2 id="filters-title" class="sr-only">Search and Filter</h2>
+      <div class="filters" role="group" aria-label="Subscriber search and filter">
+        <div>
+          <label for="emailSearch">Search by Email</label>
+          <input 
+            type="text" 
+            id="emailSearch" 
+            placeholder="Enter email address..." 
+            aria-label="Search subscribers by email address"
+          />
+        </div>
+        <div>
+          <label for="sourceFilter">Filter by Source</label>
+          <select id="sourceFilter" aria-label="Filter subscribers by source">
+            <option value="">All Sources</option>
+            <option value="mailing_list_page">Mailing List Page</option>
+            <option value="continue_page">Continue Page</option>
+            <option value="free_content_page">Free Content Page</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+        <div>
+          <button id="refreshBtn" class="btn btn-primary" aria-label="Refresh subscriber list">
+            <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
+          </button>
+        </div>
+      </div>
+      <div id="status" class="admin-status" role="status" aria-live="polite" aria-atomic="true" style="display: none;"></div>
+
+      <section aria-labelledby="subscribers-title">
+        <h2 id="subscribers-title" class="section-title-spacing">Subscribers</h2>
+        <div style="overflow-x: auto;">
+          <table role="table" aria-label="Mailing list subscribers">
+            <thead>
+              <tr role="row">
+                <th role="columnheader">Email</th>
+                <th role="columnheader">Consent Given</th>
+                <th role="columnheader">Consent Timestamp</th>
+                <th role="columnheader">Source</th>
+                <th role="columnheader">Created At</th>
+                <th role="columnheader">Updated At</th>
+              </tr>
+            </thead>
+            <tbody id="subscribersBody" role="rowgroup">
+              <tr>
+                <td colspan="6" class="table-cell-center">
+                  <div class="empty-state no-padding">
+                    <div class="empty-state-icon large"><i class="fas fa-inbox"></i></div>
+                    <div class="empty-state-title">No subscribers loaded</div>
+                    <div class="empty-state-message small">Click "Refresh" to load subscribers from the database.</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="/admin-mailing-list.js"></script>
+  <script>
+    // Check if admin is authenticated, redirect to login if not
+    (async () => {
+      try {
+        const res = await fetchWithTimeout('/admin/check-auth', {}, 5000);
+        if (!res.ok) {
+          window.location.href = '/admin-login.html';
+        }
+      } catch (err) {
+        window.location.href = '/admin-login.html';
+      }
+    })();
+  </script>
+</body>
+</html>

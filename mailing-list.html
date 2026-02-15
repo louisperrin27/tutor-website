@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Join the Louis Perrin Tutor mailing list to receive free tips and educational resources. No spam. Unsubscribe anytime.">
+  <meta name="keywords" content="mailing list, tutor newsletter, tutoring updates, free tips">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/mailing-list.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/mailing-list.html">
+  <meta property="og:title" content="Join Mailing List - Louis Perrin Tutor">
+  <meta property="og:description" content="Join the mailing list for free tips and educational resources. No spam. Unsubscribe anytime.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Join Mailing List - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Join the mailing list for free tips and educational resources.">
+  
+  <title>Join Mailing List - Louis Perrin Tutor</title>
+
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+  <style>
+    body {
+      background: var(--background-gray, #f8f9fb);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .mailing-list-container {
+      background: #fff;
+      border-radius: var(--border-radius, 10px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .mailing-list-container h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary, #333);
+    }
+
+    .mailing-list-container p {
+      color: var(--text-secondary, #666);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mailing-list-container input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius, 6px);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .mailing-list-container button {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      background: var(--primary-blue, #0056ff);
+      color: white;
+      font-weight: bold;
+      border-radius: var(--border-radius, 6px);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .mailing-list-container button:hover {
+      background: var(--primary-blue-hover, #0040d4);
+    }
+
+    .mailing-list-container button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 1rem;
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .subscription-agreement {
+      font-size: 0.8rem;
+      color: var(--text-secondary, #666);
+      margin-top: 0.75rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .info-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary, #666);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .field-error {
+      display: none;
+      color: #c33;
+      font-size: 0.85rem;
+      margin-top: -0.5rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+  </style>
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/email-validation.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+</head>
+
+<body>
+  <div data-include="navigation" data-nav-type="standard"></div>
+  <main role="main">
+    <div class="mailing-list-container">
+      <h1>Join My Mailing List</h1>
+      <p>Free tips. No spam. Unsubscribe anytime.</p>
+
+      <form id="mailingListForm" aria-label="Mailing list signup form">
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" id="email" placeholder="Enter your email" required 
+               pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+               title="Please enter a valid email address (e.g., name@example.com)"
+               aria-required="true" 
+               aria-describedby="emailError" />
+        <span class="field-error email-error" data-field="email" id="emailError" role="alert" aria-live="polite"></span>
+        <button type="submit" aria-label="Join mailing list">Join Mailing List</button>
+        <p class="subscription-agreement">By subscribing, you agree to receive free emails from Louis Perrin. Unsubscribe anytime.</p>
+        <p class="info-text">Stay updated with tutoring offers, free lessons, and resources.</p>
+        <p id="responseMsg" class="success-message" role="status" aria-live="polite">Thanks for joining!</p>
+      </form>
+    </div>
+  </main>
+
+  <script src="/form-validation.js" defer></script>
+  <script>
+    const form = document.getElementById("mailingListForm");
+    const msg = document.getElementById("responseMsg");
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
+      // Hide previous messages and show loading
+      msg.style.display = "none";
+      if (emailError) emailError.style.display = "none";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Joining...";
+      }
+
+      // Validate email using shared validation
+      if (!isValidEmail(email)) {
+        if (emailError) {
+          emailError.textContent = 'Please enter a valid email address (e.g., name@example.com)';
+          emailError.style.display = 'block';
+        }
+        emailInput.setAttribute('aria-invalid', 'true');
+        emailInput.classList.add('invalid');
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        msg.textContent = "Please enter a valid email address.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Join Mailing List";
+        }
+        emailInput.focus();
+        return;
+      }
+      if (emailError) emailError.style.display = 'none';
+      emailInput.setAttribute('aria-invalid', 'false');
+      emailInput.classList.remove('invalid');
+
+      try {
+        // Determine source based on current page
+        const source = 'mailing_list_page';
+        const res = await fetchWithTimeout("/join-mailing-list", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, source }),
+        }, 10000);
+
+        if (!res.ok) {
+          let errorMessage = "Something went wrong. Please try again.";
+          try {
+            const errorData = await res.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (_) {
+            if (res.status === 400) {
+              errorMessage = "Invalid email address. Please check and try again.";
+            } else if (res.status === 429) {
+              errorMessage = "Too many signup attempts. Please try again later.";
+            } else if (res.status >= 500) {
+              errorMessage = "Server error. Please try again later.";
+            }
+          }
+          throw new Error(errorMessage);
+        }
+
+        let data;
+        try {
+          data = await res.json();
+        } catch (jsonErr) {
+          throw new Error("Invalid response from server. Please try again.");
+        }
+
+        msg.style.display = "block";
+        msg.style.color = "#28a745";
+        msg.textContent = data.message || "Successfully joined the mailing list!";
+        form.reset();
+        // Track mailing list signup
+        if (window.trackFormSubmit) {
+          window.trackFormSubmit('mailing_list', {
+            email: email,
+            source: 'mailing_list_page',
+          });
+        }
+      } catch (err) {
+        msg.style.display = "block";
+        msg.style.color = "#c33";
+        if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+          msg.textContent = 'Request timed out. Please check your internet connection and try again.';
+        } else if (err.message && err.message.includes("Failed to fetch")) {
+          msg.textContent = "Unable to connect to the server. Please check your internet connection and try again.";
+        } else {
+          msg.textContent = err.message || "Failed to connect to server. Please try again.";
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Join Mailing List";
+        }
+      }
+    });
+
+    // Add real-time email validation
+    if (emailInput && emailError) {
+      emailInput.addEventListener('blur', function() {
+        validateEmailInput(emailInput, emailError);
+      });
+      emailInput.addEventListener('input', function() {
+        if (this.value.trim().length > 0) {
+          validateEmailInput(emailInput, emailError);
+        } else {
+          emailError.style.display = 'none';
+          this.classList.remove('valid', 'invalid');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

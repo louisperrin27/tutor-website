@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">      <!-- Declares character encoding as UTF-8, supporting most characters/languages -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- Ensures responsive layout by setting the viewport width and default zoom -->
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Preconnect to external resources for improved performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://www.youtube.com" crossorigin>
+    <link rel="preconnect" href="https://youtube.com" crossorigin>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Expert A-Level and GCSE tutoring in Maths, Physics, and Further Maths. Personalised online tutoring sessions with proven results. Book your free trial session today.">
+    <meta name="keywords" content="GCSE tutoring, A-Level tutoring, Maths tutor, Physics tutor, Further Maths tutor, online tutoring, UK tutor, exam preparation">
+    <meta name="author" content="Louis Perrin">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://louisperrintutor.com/index.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://louisperrintutor.com/index.html">
+    <meta property="og:title" content="Louis Perrin Tutor - Expert GCSE & A-Level Tutoring">
+    <meta property="og:description" content="Expert A-Level and GCSE tutoring in Maths, Physics, and Further Maths. Personalised online tutoring sessions with proven results.">
+    <meta property="og:site_name" content="Louis Perrin Tutor">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Louis Perrin Tutor - Expert GCSE & A-Level Tutoring">
+    <meta name="twitter:description" content="Expert A-Level and GCSE tutoring in Maths, Physics, and Further Maths. Personalised online tutoring sessions with proven results.">
+
+    <title>Louis Perrin Tutor - Expert GCSE & A-Level Tutoring</title>
+
+    <link rel="stylesheet" href="/styles.css">       <!-- Links current document to CSS document -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">        <!-- Links font awesome icons (not fonts) to the current document -->
+    <style>
+
+    </style>
+    <script src="/fetch-with-timeout.js"></script>
+    <script src="/analytics.js" defer></script>
+    <script src="/load-navigation.js" defer></script>
+
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Louis Perrin Tutor",
+      "url": "https://louisperrintutor.com",
+      "logo": "https://louisperrintutor.com/logo.png",
+      "description": "Expert A-Level and GCSE tutoring in Maths, Physics, and Further Maths. Personalised online tutoring sessions with proven results.",
+      "sameAs": [
+        "https://youtube.com/@LouisPerrinTutor"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "url": "https://louisperrintutor.com/contact.html"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Louis Perrin",
+      "jobTitle": "Tutor",
+      "description": "Engineering Degree Apprentice providing expert GCSE and A-Level tutoring in Maths, Physics, and Further Maths.",
+      "url": "https://louisperrintutor.com",
+      "sameAs": [
+        "https://youtube.com/@LouisPerrinTutor"
+      ],
+      "knowsAbout": ["Mathematics", "Physics", "Further Mathematics", "GCSE Tutoring", "A-Level Tutoring"],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Engineering Degree Apprenticeship"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Louis Perrin Tutor",
+      "url": "https://louisperrintutor.com",
+      "description": "Expert A-Level and GCSE tutoring in Maths, Physics, and Further Maths. Personalised online tutoring sessions with proven results.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Louis Perrin Tutor"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://louisperrintutor.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Educational Tutoring",
+      "provider": {
+        "@type": "Person",
+        "name": "Louis Perrin"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "United Kingdom"
+      },
+      "description": "Expert GCSE and A-Level tutoring in Mathematics, Physics, and Further Mathematics. Online tutoring sessions via video call.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Free Trial Session",
+          "price": "0",
+          "priceCurrency": "GBP",
+          "description": "1 free 60-minute session to assess strengths and areas for improvement"
+        },
+        {
+          "@type": "Offer",
+          "name": "1-to-1 Tutoring Session",
+          "price": "40",
+          "priceCurrency": "GBP",
+          "description": "Personalised one-to-one tutoring session"
+        },
+        {
+          "@type": "Offer",
+          "name": "Group Tutoring Session",
+          "price": "20",
+          "priceCurrency": "GBP",
+          "description": "Small focused group tutoring session"
+        },
+        {
+          "@type": "Offer",
+          "name": "1-to-1 Pack (5 + 1 free)",
+          "price": "200",
+          "priceCurrency": "GBP",
+          "description": "Pack of 5 sessions for £200, get 6 sessions total"
+        }
+      ]
+    }
+    </script>
+
+</head>
+
+    <body>       
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <div data-include="navigation" data-nav-type="standard"></div>
+
+        <!-- Main content container -->
+        <main id="main-content" class="container" role="main">
+            <section id="home" class="hero-section" aria-labelledby="home-title">
+                <h1 id="home-title" class="hero-title">Expert GCSE & A-Level Tutoring</h1>
+                <p class="hero-subtitle">
+                    Expert A-Level and GCSE tutoring with proven results.
+                    Personalised learning that builds confidence and achieves success.
+                </p>
+            </section>         
+            <section id="videos" class="youtube-section" aria-labelledby="videos-title">
+                <h2 id="videos-title" class="section-title">
+                    <i class="fab fa-youtube youtube-icon" aria-hidden="true"></i>
+                    Latest Video Lessons
+                </h2>
+                <p class="section-description">
+                    Watch the latest tutorial directly here or on YouTube.
+                </p>
+                <div id="latest-video" class="video-embed" aria-label="Latest YouTube video" aria-live="polite" role="region">
+                  <div class="video-loading" id="videoLoading" aria-live="polite" aria-label="Loading video">
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                    <p>Loading latest video...</p>
+                  </div>
+                </div>
+                <div class="cta-buttons" role="group" aria-label="Video actions">
+                    <a id="watch-on-youtube" href="https://youtube.com/@LouisPerrinTutor" class="btn btn-primary" target="_blank" rel="noopener" aria-label="Watch latest video on YouTube (opens in new tab)">Watch on YouTube</a>
+                    <a href="https://youtube.com/@LouisPerrinTutor?sub_confirmation=1" class="btn btn-secondary" target="_blank" rel="noopener" aria-label="Subscribe to YouTube channel (opens in new tab)">Subscribe</a>
+                </div>
+                <script>
+                    (async function () {
+                        const handle = 'LouisPerrinTutor';
+                        const mount = document.getElementById('latest-video');
+                        const loadingEl = document.getElementById('videoLoading');
+                        let videoData = null;
+                        let iframeLoaded = false;
+                        
+                        // Function to load the YouTube iframe
+                        async function loadYouTubeVideo() {
+                            if (iframeLoaded) return; // Prevent multiple loads
+                            iframeLoaded = true;
+                            
+                            try {
+                                const res = await fetchWithTimeout(`/api/youtube/latest?handle=${encodeURIComponent(handle)}`, {}, 10000);
+                                
+                                if (!res.ok) {
+                                    throw new Error(`Server error: ${res.status} ${res.statusText}`);
+                                }
+                                
+                                let data;
+                                try {
+                                    data = await res.json();
+                                } catch (jsonErr) {
+                                    throw new Error('Invalid response from server');
+                                }
+                                
+                                if (data && data.videoId) {
+                                    // Hide loading. Use thumbnail + link instead of iframe to avoid error 153 (embedding disabled by owner)
+                                    if (loadingEl) loadingEl.style.display = 'none';
+                                    mount.textContent = '';
+                                    const videoUrl = data.url || `https://www.youtube.com/watch?v=${data.videoId}`;
+                                    const thumbUrl = `https://img.youtube.com/vi/${data.videoId}/hqdefault.jpg`;
+                                    const link = document.createElement('a');
+                                    link.href = videoUrl;
+                                    link.target = '_blank';
+                                    link.rel = 'noopener';
+                                    link.className = 'video-embed-link';
+                                    link.setAttribute('aria-label', 'Watch latest video on YouTube');
+                                    const img = document.createElement('img');
+                                    img.src = thumbUrl;
+                                    img.alt = data.title || 'Latest video';
+                                    img.loading = 'lazy';
+                                    img.width = 560;
+                                    img.height = 315;
+                                    img.style.maxWidth = '100%';
+                                    img.style.height = 'auto';
+                                    img.style.display = 'block';
+                                    link.appendChild(img);
+                                    const playLabel = document.createElement('span');
+                                    playLabel.className = 'video-embed-play-label';
+                                    playLabel.textContent = '▶ Play on YouTube';
+                                    playLabel.setAttribute('aria-hidden', 'true');
+                                    link.appendChild(playLabel);
+                                    mount.appendChild(link);
+                                    videoData = data;
+                                    const watchLink = document.getElementById('watch-on-youtube');
+                                    if (watchLink) watchLink.href = videoUrl;
+                                } else {
+                                    if (loadingEl) loadingEl.style.display = 'none';
+                                    mount.textContent = '';
+                                    const errorMsg = document.createElement('p');
+                                    errorMsg.style.color = '#86868b';
+                                    errorMsg.textContent = 'Unable to load the latest video right now. Please try again later.';
+                                    mount.appendChild(errorMsg);
+                                }
+                        } catch (err) {
+                            if (window.clientLogger) {
+                                window.clientLogger.apiError('GET', '/api/youtube/latest', err, { handle });
+                            } else {
+                                console.error('Failed to load latest YouTube video', err);
+                            }
+                            if (loadingEl) loadingEl.style.display = 'none';
+                            mount.textContent = '';
+                            const errorMsg = document.createElement('p');
+                            errorMsg.className = 'error-message-inline';
+                            errorMsg.style.color = '#86868b';
+                            if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+                                errorMsg.textContent = 'Request timed out. Please check your internet connection and try again.';
+                            } else if (err.message && err.message.includes('Failed to fetch')) {
+                                errorMsg.textContent = 'Unable to connect to the server. Please check your internet connection.';
+                            } else {
+                                errorMsg.textContent = 'Unable to load the latest video right now. Please try again later.';
+                            }
+                            mount.appendChild(errorMsg);
+                        }
+                        }
+                        
+                        // Check if Intersection Observer is supported
+                        if ('IntersectionObserver' in window) {
+                            // Create intersection observer to lazy load when video section is near viewport
+                            const observer = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => {
+                                    // Load video when section is 200px away from viewport (rootMargin: '200px')
+                                    if (entry.isIntersecting) {
+                                        observer.unobserve(entry.target);
+                                        loadYouTubeVideo();
+                                    }
+                                });
+                            }, {
+                                rootMargin: '200px', // Start loading 200px before entering viewport
+                                threshold: 0.01 // Trigger when 1% of element is visible
+                            });
+                            
+                            // Observe the video section
+                            const videoSection = document.getElementById('videos');
+                            if (videoSection) {
+                                observer.observe(videoSection);
+                            } else {
+                                // Fallback: load immediately if section not found
+                                loadYouTubeVideo();
+                            }
+                        } else {
+                            // Fallback for browsers without Intersection Observer support
+                            // Load after a short delay to allow page to render first
+                            setTimeout(loadYouTubeVideo, 500);
+                        }
+                    })();
+                </script>
+            </section>
+
+            <section id="subjects" class="subject-section" aria-labelledby="subjects-title">
+                <h2 id="subjects-title" class="subject-title">Subjects</h2>
+                <div class="subject-grid" role="list">
+
+                    <a href="/maths.html" class="subject-card" role="listitem" aria-label="View Mathematics tutoring resources">      <!-- Creates hyperlink for maths html page-->
+                        <div class="subject-icon" aria-hidden="true">
+                            <i class="fas fa-calculator"></i>       <!-- Calculator icon taken from font awesome -->
+                        </div>
+                        <h3 class="subject-title">Mathematics</h3>
+                        <p class="subject-description">
+                            A-Level and GCSE Maths with comprehensive problem-solving techniques
+                        </p>
+                    </a>
+
+                    <a href="/physics.html" class="subject-card" role="listitem" aria-label="View Physics tutoring resources">
+                        <div class="subject-icon" aria-hidden="true">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3 class="subject-title">Physics</h3>
+                        <p class="subject-description">
+                            Understanding complex concepts through practical applications
+                        </p>
+                    </a>
+
+                    <a href="/further_maths.html" class="subject-card" role="listitem" aria-label="View Further Maths tutoring resources">
+                        <div class="subject-icon" aria-hidden="true">
+                            <i class="fas fa-square-root-alt"></i>
+                        </div>
+                        <h3 class="subject-title">Further Maths</h3>
+                        <p class="subject-description">
+                            Advanced mathematical concepts for university preparation
+                        </p>
+                    </a>                                    
+                </div>
+            </section>
+        </div>
+
+        <footer role="contentinfo" aria-label="Site footer">
+            <p>&copy; 2025 Louis Perrin Tutor. Helping students achieve their potential.</p>
+        </footer>
+    </body>
+</html>

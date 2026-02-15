@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <title>Admin Login - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body { 
+      background: var(--background-gray); 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      max-width: 400px;
+      width: 100%;
+      background: #fff;
+      border-radius: 12px;
+      padding: var(--spacing-xl, 2rem);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+    .login-container h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary, #333);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius, 8px);
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .error-message {
+      color: #c33;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .error-message.show {
+      display: block;
+    }
+  </style>
+  <script src="fetch-with-timeout.js"></script>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Sign In</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="adminKey" class="sr-only">Admin Key</label>
+        <input 
+          type="password" 
+          id="adminKey" 
+          placeholder="Admin Key" 
+          required
+          autocomplete="off"
+          aria-label="Admin authentication key"
+        />
+      </div>
+      <div class="error-message" id="errorMessage" role="alert"></div>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const adminKey = document.getElementById('adminKey').value.trim();
+      const errorEl = document.getElementById('errorMessage');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      
+      errorEl.classList.remove('show');
+      errorEl.textContent = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+      
+      try {
+        const res = await fetchWithTimeout('/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminKey })
+        }, 10000);
+        
+        if (res.ok) {
+          window.location.href = '/admin-home.html';
+        } else {
+          const data = await res.json().catch(() => ({}));
+          errorEl.textContent = data.message || 'Invalid admin key. Please try again.';
+          errorEl.classList.add('show');
+          document.getElementById('adminKey').focus();
+        }
+      } catch (err) {
+        errorEl.textContent = 'Connection error. Please try again.';
+        errorEl.classList.add('show');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

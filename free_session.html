@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Join a free tutoring session. Fill in your details to secure your place in a group tutoring session.">
+  <meta name="keywords" content="free tutoring session, group tutoring, free lesson">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/free_session.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/free_session.html">
+  <meta property="og:title" content="Join Free Session - Louis Perrin Tutor">
+  <meta property="og:description" content="Join a free tutoring session. Fill in your details to secure your place.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Join Free Session - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Join a free tutoring session. Fill in your details to secure your place.">
+  
+  <title>Join Free Session - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div data-include="navigation" data-nav-type="standard"></div>
+
+  <main id="main-content" class="container" role="main">
+    <section class="hero-section" aria-labelledby="session-title">
+      <h1 id="session-title" class="hero-title">Join a Group Session</h1>
+      <p class="hero-subtitle">Fill in your details below to secure your place.</p>
+
+      <form class="contact-form" method="POST" action="/send-message" aria-label="Group session booking form">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="firstName" required aria-required="true">
+          <span class="field-error" data-field="name" id="nameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required
+                 pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+                 title="Please enter a valid email address (e.g., name@example.com)"
+                 aria-required="true" />
+          <span class="field-error email-error" data-field="email" id="emailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" name="subject" required aria-required="true">
+            <option value="">Select subject...</option>
+            <option value="Maths">Maths</option>
+            <option value="Physics">Physics</option>
+            <option value="Further Maths">Further Maths</option>
+          </select>
+          <span class="field-error" data-field="subject" id="subjectError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message (Optional)</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+          <span class="field-error" data-field="message" id="messageError"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn">Submit & Pay</button>
+      </form>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Louis Perrin Tutor. Helping students achieve their potential.</p>
+  </footer>
+
+  <script src="/form-validation.js" defer></script>
+  <script>
+    document.querySelector('form').addEventListener('submit', function() {
+      const btn = document.getElementById('submitBtn');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+      }
+    });
+  </script>
+
+</body>
+</html>

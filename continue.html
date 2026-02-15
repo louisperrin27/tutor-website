@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Create a free account or continue as a guest to book your tutoring session with Louis Perrin Tutor.">
+  <meta name="keywords" content="tutoring signup, create account, guest booking">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/continue.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/continue.html">
+  <meta property="og:title" content="Continue - Louis Perrin Tutor">
+  <meta property="og:description" content="Create a free account or continue as a guest to book your tutoring session.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Continue - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Create a free account or continue as a guest to book your tutoring session.">
+  
+  <title>Continue - Louis Perrin Tutor</title>
+
+  <!-- Global stylesheet for layout and theme -->
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- Font Awesome for icons (CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+  <style>
+    /* Page wrapper */
+    body {
+      background: var(--background-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* White panel */
+    .continue-panel {
+      background: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .continue-panel h1 {
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .continue-panel p.subtitle {
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-md);
+      font-size: 0.95rem;
+    }
+
+    /* Input and button styling */
+    .continue-panel input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .continue-panel button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-blue);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .continue-panel button:hover {
+      background: var(--primary-blue-hover);
+    }
+
+    /* Info under form */
+    .info-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: var(--spacing-sm);
+    }
+
+    .guest-link {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: var(--spacing-md);
+      display: inline-block;
+    }
+
+    .guest-link a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .guest-link a:hover {
+      color: var(--primary-blue);
+    }
+
+    .success-message {
+      display: none;
+      margin-top: var(--spacing-sm);
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+</head>
+
+  <body>
+  <main role="main">
+    <div class="continue-panel">
+      <h1>Create your free account</h1>
+      <p class="subtitle">No credit card required. Upgrade anytime.</p>
+
+      <form id="signupForm" aria-label="Continue to booking form">
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" id="email" placeholder="Enter your email" required 
+               pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+               title="Please enter a valid email address (e.g., name@example.com)"
+               aria-required="true" 
+               aria-describedby="emailError" />
+        <span class="field-error email-error" data-field="email" id="emailError" role="alert" aria-live="polite"></span>
+        <button type="submit" aria-label="Continue to booking with email">Continue with Email</button>
+        <p class="info-text">Continue with email to receive extra learning content and free resources.</p>
+        <p id="responseMsg" class="success-message" role="status" aria-live="polite">Thanks for joining!</p>
+      </form>
+
+      <div class="guest-link">
+        or <a href="/payment.html" aria-label="Continue to payment as guest">Continue as guest</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/form-validation.js" defer></script>
+  <script>
+  // Minimal, robust redirect after join:
+  // - POST email to backend (127.0.0.1 to match Live Server origin)
+  // - Redirect to payment page regardless of response (server saves first)
+  const form = document.getElementById('signupForm');
+  const msg = document.getElementById('responseMsg');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const msg = document.getElementById('responseMsg');
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get('plan') || 'free';
+    const autoBook = params.get('auto_book') === 'true';
+    const slotId = params.get('slot_id');
+    const price = params.get('price');
+    const date = params.get('date');
+    const time = params.get('time');
+    const displayDate = params.get('displayDate');
+    
+    // Validate email using shared validation
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+    if (!isValidEmail(email)) {
+      if (emailError) {
+        emailError.textContent = 'Please enter a valid email address (e.g., name@example.com)';
+        emailError.style.display = 'block';
+      }
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.classList.add('invalid');
+      if (msg) {
+        msg.style.display = 'block';
+        msg.style.color = '#c33';
+        msg.textContent = 'Please enter a valid email address.';
+      }
+      emailInput.focus();
+      return;
+    }
+    if (emailError) emailError.style.display = 'none';
+    emailInput.setAttribute('aria-invalid', 'false');
+    emailInput.classList.remove('invalid');
+    
+    // Show loading state
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing...';
+    }
+    if (msg) {
+      msg.style.display = 'none';
+    }
+    
+    try {
+      // Determine source based on current page
+      const source = 'continue_page';
+      const res = await fetchWithTimeout('/join-mailing-list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source })
+      }, 10000);
+      
+      // If signup fails, show error but still allow redirect for better UX
+      if (!res.ok) {
+        let errorMessage = 'Unable to join mailing list.';
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (_) {
+          // Use default message if JSON parsing fails
+        }
+        if (msg) {
+          msg.style.display = 'block';
+          msg.style.color = '#ff9800';
+          msg.textContent = 'Note: ' + errorMessage + ' Continuing to payment...';
+          // Wait a moment to show message, then redirect
+          setTimeout(() => {
+            const slotId = params.get('slot_id');
+            const slotStart = params.get('slot_start');
+            const price = params.get('price');
+            const date = params.get('date');
+            const time = params.get('time');
+            const displayDate = params.get('displayDate');
+            const url = new URL('payment.html', window.location.origin);
+            url.searchParams.set('plan', plan);
+            if (slotId) url.searchParams.set('slot_id', slotId);
+            if (slotStart) url.searchParams.set('slot_start', slotStart);
+            if (price) url.searchParams.set('price', price);
+            if (date) url.searchParams.set('date', date);
+            if (time) url.searchParams.set('time', time);
+            if (displayDate) url.searchParams.set('displayDate', displayDate);
+            window.location.href = url.toString();
+          }, 2000);
+          return;
+        }
+      } else {
+        // Track successful mailing list signup
+        if (window.trackFormSubmit) {
+          window.trackFormSubmit('mailing_list', {
+            email: email,
+            source: 'continue_page',
+          });
+        }
+      }
+    } catch (err) {
+      if (window.clientLogger) {
+        window.clientLogger.apiError('POST', '/join-mailing-list', err, { email });
+      } else {
+        console.error('Mailing list signup error:', err);
+      }
+      // Show warning but continue to payment (non-blocking)
+      if (msg) {
+        msg.style.display = 'block';
+        msg.style.color = '#ff9800';
+        if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+          msg.textContent = 'Note: Request timed out. Continuing to payment...';
+        } else if (err.message && err.message.includes('Failed to fetch')) {
+          msg.textContent = 'Note: Unable to connect. Continuing to payment...';
+        } else {
+          msg.textContent = 'Note: Unable to join mailing list. Continuing to payment...';
+        }
+        // Wait a moment to show message, then redirect
+        setTimeout(() => {
+          const slotId = params.get('slot_id');
+          const slotStart = params.get('slot_start');
+          const price = params.get('price');
+          const date = params.get('date');
+          const time = params.get('time');
+          const displayDate = params.get('displayDate');
+          const url = new URL('payment.html', window.location.origin);
+          url.searchParams.set('plan', plan);
+          if (slotId) url.searchParams.set('slot_id', slotId);
+          if (slotStart) url.searchParams.set('slot_start', slotStart);
+          if (price) url.searchParams.set('price', price);
+          if (date) url.searchParams.set('date', date);
+          if (time) url.searchParams.set('time', time);
+          if (displayDate) url.searchParams.set('displayDate', displayDate);
+          window.location.href = url.toString();
+        }, 2000);
+        return;
+      }
+    }
+    
+    // If auto_book is true and plan is free, book directly and redirect to confirmation
+    if (autoBook && slotId && (plan.includes('free') || plan === 'free')) {
+      try {
+        const bookRes = await fetchWithTimeout('/api/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slotId: Number(slotId), email, amount_pence: 0 })
+        }, 10000);
+        
+        if (bookRes.ok) {
+          // Track free booking completion
+          if (window.trackBooking) {
+            window.trackBooking('free', {
+              slot_id: slotId,
+              value: 0,
+              currency: 'GBP',
+            });
+          }
+          // Redirect to confirmation page
+          const confirmUrl = new URL('confirmation.html', window.location.origin);
+          confirmUrl.searchParams.set('email', email);
+          window.location.href = confirmUrl.toString();
+          return;
+        } else {
+          // Booking failed, show error
+          if (msg) {
+            msg.style.display = 'block';
+            msg.style.color = '#c33';
+            const errorData = await bookRes.json().catch(() => ({}));
+            msg.textContent = errorData.message || 'Booking failed. Please try again.';
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Continue with Email';
+          }
+          return;
+        }
+      } catch (bookErr) {
+        console.error('Free booking error:', bookErr);
+        if (msg) {
+          msg.style.display = 'block';
+          msg.style.color = '#c33';
+          msg.textContent = 'Booking failed. Please try again.';
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Continue with Email';
+        }
+        return;
+      }
+    }
+    
+    // Forward any selected slot info through to payment
+    const slotStart = params.get('slot_start');
+    const url = new URL('payment.html', window.location.origin);
+    url.searchParams.set('plan', plan);
+    if (slotId) url.searchParams.set('slot_id', slotId);
+    if (slotStart) url.searchParams.set('slot_start', slotStart);
+    if (price) url.searchParams.set('price', price);
+    if (date) url.searchParams.set('date', date);
+    if (time) url.searchParams.set('time', time);
+    if (displayDate) url.searchParams.set('displayDate', displayDate);
+    window.location.href = url.toString();
+  });
+  </script>
+</body>
+</html>

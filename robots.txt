@@ -1,0 +1,13 @@
+# robots.txt for Louis Perrin Tutor
+# This file tells search engines which pages they can and cannot access
+
+# Allow all search engines
+User-agent: *
+# Disallow admin pages (private/admin-only content)
+Disallow: /admin/
+Disallow: /admin.html
+# Allow everything else
+Allow: /
+
+# Sitemap location
+Sitemap: https://louisperrintutor.com/sitemap.xml

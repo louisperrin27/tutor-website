@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Preconnect to external resources for improved performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://www.google.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get in touch with Louis Perrin Tutor. Have questions about tutoring sessions, pricing, or availability? Contact us today.">
+    <meta name="keywords" content="contact tutor, tutoring enquiry, maths tutor contact, physics tutor contact">
+    <meta name="author" content="Louis Perrin">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://louisperrintutor.com/contact.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://louisperrintutor.com/contact.html">
+    <meta property="og:title" content="Contact - Louis Perrin Tutor">
+    <meta property="og:description" content="Get in touch with Louis Perrin Tutor. Have questions about tutoring sessions, pricing, or availability? Contact us today.">
+    <meta property="og:site_name" content="Louis Perrin Tutor">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Contact - Louis Perrin Tutor">
+    <meta name="twitter:description" content="Get in touch with Louis Perrin Tutor. Have questions about tutoring sessions, pricing, or availability? Contact us today.">
+
+    <title>Contact - Louis Perrin Tutor</title>
+
+    <link rel="stylesheet" href="/styles.css">      
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">     
+    <style>
+
+    </style>
+    <script src="/client-logger.js"></script>
+    <script src="/load-navigation.js" defer></script>
+
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact - Louis Perrin Tutor",
+      "description": "Get in touch with Louis Perrin Tutor. Have questions about tutoring sessions, pricing, or availability? Contact us today.",
+      "url": "https://louisperrintutor.com/contact.html",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Louis Perrin Tutor",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Service",
+          "url": "https://louisperrintutor.com/contact.html",
+          "availableLanguage": "English"
+        }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://louisperrintutor.com/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Contact",
+          "item": "https://louisperrintutor.com/contact.html"
+        }
+      ]
+    }
+    </script>
+
+</head>
+
+    <body>       
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <div data-include="navigation" data-nav-type="standard"></div>
+
+        <main id="main-content" class="container" role="main">
+            <section class="hero-section" aria-labelledby="contact-title">
+                <h1 id="contact-title" class="hero-title">Contact Me</h1>
+                <p class="hero-subtitle">Have questions about tutoring sessions, pricing, or availability? Send me a message and I'll get back to you soon.</p>
+            </section>
+
+            <section class="contact-form-section" aria-labelledby="contact-form-title">
+                <form class="contact-form" id="contactForm" aria-label="Contact form">
+                    <!-- Error/Success message container -->
+                    <div id="contactMessage" class="error-message-container" role="alert" aria-live="polite" aria-atomic="true"></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required aria-required="true" aria-describedby="firstNameError">
+                            <span class="field-error" data-field="firstName" id="firstNameError" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" aria-describedby="lastNameError">
+                            <span class="field-error" data-field="lastName" id="lastNameError" role="alert" aria-live="polite"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required
+                                   pattern="[^\s@]+@[^\s@]+\.[^\s@]+" 
+                                   title="Please enter a valid email address (e.g., name@example.com)"
+                                   aria-required="true" 
+                                   aria-describedby="emailError" />
+                            <span class="field-error email-error" data-field="email" id="emailError" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required aria-required="true" aria-describedby="subjectError">
+                            <span class="field-error" data-field="subject" id="subjectError" role="alert" aria-live="polite"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="6" required aria-required="true" aria-describedby="messageError"></textarea>
+                        <span class="field-error" data-field="message" id="messageError" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <!-- Google reCAPTCHA widget -->
+                    <div class="form-group" aria-label="reCAPTCHA verification">
+                        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY" aria-label="reCAPTCHA widget"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn" aria-label="Submit contact form">Submit</button>
+                </form>
+            </section>
+        </main>
+
+        <footer role="contentinfo" aria-label="Site footer">
+            <p>&copy; 2025 Louis Perrin Tutor. Helping students achieve their potential.</p>
+        </footer>
+
+        <script src="fetch-with-timeout.js"></script>
+        <script src="/analytics.js" defer></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script src="/form-validation.js" defer></script>
+        <script>
+          document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const msgEl = document.getElementById('contactMessage');
+            
+            // Hide previous messages
+            msgEl.style.display = 'none';
+            
+            // Show loading state
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = 'Sending...';
+            }
+            
+            const formData = {
+              firstName: document.getElementById('firstName').value.trim(),
+              lastName: document.getElementById('lastName').value.trim(),
+              email: document.getElementById('email').value.trim(),
+              subject: document.getElementById('subject').value.trim(),
+              message: document.getElementById('message').value.trim()
+            };
+            
+            // Validate required fields
+            if (!formData.firstName || !formData.email || !formData.subject || !formData.message) {
+              msgEl.classList.add('show', 'alert-warning');
+              msgEl.textContent = '✗ Please fill in all required fields.';
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit';
+              }
+              return;
+            }
+            
+            // Validate email using shared validation
+            if (!isValidEmail(formData.email)) {
+              if (emailError) {
+                emailError.textContent = 'Please enter a valid email address (e.g., name@example.com)';
+                emailError.classList.add('email-error-display');
+              }
+              emailInput.setAttribute('aria-invalid', 'true');
+              emailInput.classList.add('invalid');
+              msgEl.classList.add('show', 'alert-warning');
+              msgEl.textContent = '✗ Please enter a valid email address.';
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit';
+              }
+              emailInput.focus();
+              return;
+            }
+            if (emailError) emailError.classList.remove('email-error-display');
+            emailInput.setAttribute('aria-invalid', 'false');
+            emailInput.classList.remove('invalid');
+            
+            try {
+              const res = await fetchWithTimeout('/send-message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+              }, 10000);
+              
+              if (!res.ok) {
+                let errorMessage = 'Failed to send message. Please try again.';
+                try {
+                  const errorData = await res.json();
+                  errorMessage = errorData.message || errorMessage;
+                } catch (_) {
+                  if (res.status === 400) {
+                    errorMessage = 'Invalid form data. Please check your inputs and try again.';
+                  } else if (res.status === 429) {
+                    errorMessage = 'Too many submissions. Please wait a moment and try again.';
+                  } else if (res.status >= 500) {
+                    errorMessage = 'Server error. Please try again later.';
+                  }
+                }
+                throw new Error(errorMessage);
+              }
+              
+              let data;
+              try {
+                data = await res.json();
+              } catch (jsonErr) {
+                throw new Error('Invalid response from server. Please try again.');
+              }
+              
+              msgEl.classList.add('show', 'alert-success');
+              msgEl.textContent = '✓ ' + (data.message || 'Message sent successfully!');
+              form.reset();
+              // Track form submission
+              if (window.trackFormSubmit) {
+                window.trackFormSubmit('contact', {
+                  email: formData.email,
+                  subject: formData.subject,
+                });
+              }
+            } catch (err) {
+              if (window.clientLogger) {
+                window.clientLogger.apiError('POST', '/send-message', err, {
+                  formId: 'contactForm',
+                  email: formData.email,
+                });
+              } else {
+                console.error('Contact form error:', err);
+              }
+              msgEl.classList.add('show', 'alert-error');
+              if (err.name === 'TimeoutError' || err.message.includes('timed out')) {
+                msgEl.textContent = '✗ Request timed out. Please check your internet connection and try again.';
+              } else if (err.message && err.message.includes('Failed to fetch')) {
+                msgEl.textContent = '✗ Unable to connect to the server. Please check your internet connection and try again.';
+              } else {
+                msgEl.textContent = '✗ ' + (err.message || 'Failed to connect to server. Please check your connection and try again.');
+              }
+            } finally {
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit';
+              }
+            }
+          });
+        </script>
+
+    </body>
+</html>

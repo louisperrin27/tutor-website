@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect to external resources for improved performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Choose your preferred tutoring time slot. Select from available weekend sessions to book your tutoring session.">
+  <meta name="keywords" content="book tutoring slot, choose tutoring time, schedule tutoring session">
+  <meta name="author" content="Louis Perrin">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://louisperrintutor.com/calendar.html">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://louisperrintutor.com/calendar.html">
+  <meta property="og:title" content="Choose a Tutoring Slot - Louis Perrin Tutor">
+  <meta property="og:description" content="Choose your preferred tutoring time slot. Select from available weekend sessions.">
+  <meta property="og:site_name" content="Louis Perrin Tutor">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Choose a Tutoring Slot - Louis Perrin Tutor">
+  <meta name="twitter:description" content="Choose your preferred tutoring time slot. Select from available weekend sessions.">
+  
+  <title>Choose a Tutoring Slot - Louis Perrin Tutor</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="calendar.css">
+  <script src="fetch-with-timeout.js"></script>
+  <script src="/analytics.js" defer></script>
+  <script src="/load-navigation.js" defer></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div data-include="navigation" data-nav-type="standard"></div>
+
+  <main id="main-content" class="calendar-page" role="main">
+    <section class="calendar-hero" aria-labelledby="calendar-title">
+      <h1 id="calendar-title" class="section-title">Pick Your Tutoring Time</h1>
+      <p id="planNotice" class="plan-notice" aria-live="polite"></p>
+    </section>
+
+    <!-- Calendar Navigation Controls -->
+    <div class="calendar-navigation" role="toolbar" aria-label="Calendar navigation">
+      <button id="todayBtn" class="nav-btn today-btn" aria-label="Go to current week">Today</button>
+      <div class="nav-arrows">
+        <button id="prevWeekBtn" class="nav-btn arrow-btn" aria-label="Previous week">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button id="nextWeekBtn" class="nav-btn arrow-btn" aria-label="Next week">
+          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="currentWeekDisplay" class="week-display" aria-live="polite"></div>
+    </div>
+
+    <div id="calendarGrid" class="calendar-grid" aria-live="polite" role="grid" aria-label="Available tutoring time slots"></div>
+
+    <div class="selection-row" role="status" aria-live="polite" aria-atomic="true">
+      <p id="selectedSlot" class="selection-text" aria-label="Selected time slot">Select a Saturday or Sunday slot to continue.</p>
+      <button id="continueBtn" class="btn btn-primary continue-button" disabled aria-label="Continue to payment with selected time slot">Go to Payment</button>
+    </div>
+  </main>
+
+  <script src="/calendar.js"></script>
+</body>
+</html>

@@ -1,0 +1,1011 @@
+/* ============================================
+   CSS RESET & BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   LAYOUT & CONTAINER
+   ============================================ */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #0056ff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #003ad6;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #4a9eff 0%, #0056ff 100%);
+  color: white;
+  margin-bottom: 3rem;
+  border-radius: 8px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0.95;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #0056ff;
+  color: white;
+  border-color: #0056ff;
+}
+
+.btn-primary:hover {
+  background-color: #003ad6;
+  border-color: #003ad6;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0056ff;
+  border-color: #0056ff;
+}
+
+.btn-secondary:hover {
+  background-color: #0056ff;
+  color: white;
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+section {
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.section-description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
+   SUBJECT GRID & CARDS
+   ============================================ */
+
+.subject-section {
+  padding: 2rem 0;
+}
+
+.subject-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.subject-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: #0056ff;
+}
+
+.subject-icon {
+  font-size: 3rem;
+  color: #0056ff;
+  margin-bottom: 1rem;
+}
+
+.subject-card .subject-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.subject-description {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   RESOURCES 4-COLUMN LAYOUT (A Level Physics)
+   ============================================ */
+
+.resource-disclaimer {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.resources-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.resource-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.resource-col .resource-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.resource-pdf-embed {
+  min-height: 500px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f9f9f9;
+}
+
+.resource-pdf-embed.resource-pdf-placeholder {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resource-pdf-embed .pdf-iframe {
+  width: 100%;
+  height: 550px;
+  border: none;
+}
+
+.resource-link {
+  display: inline-block;
+  font-size: 0.95rem;
+  color: #0056ff;
+  margin-top: 0.25rem;
+}
+
+.resource-pdf-link {
+  font-size: 0.9rem;
+  color: #0056ff;
+}
+
+.resource-pdf-link.muted {
+  color: #999;
+  cursor: default;
+}
+
+.resource-video-link {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.resource-video-link a {
+  color: #0056ff;
+}
+
+.coming-soon {
+  color: #86868b;
+  font-size: 0.95rem;
+}
+
+.coming-soon-note {
+  color: red;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .resources-4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .resource-pdf-embed .pdf-iframe {
+    height: 450px;
+  }
+}
+
+@media (max-width: 640px) {
+  .resources-4col {
+    grid-template-columns: 1fr;
+  }
+  .resource-pdf-embed .pdf-iframe {
+    height: 400px;
+  }
+}
+
+/* ============================================
+   YOUTUBE SECTION
+   ============================================ */
+
+.youtube-section {
+  padding: 2rem 0;
+}
+
+.video-embed {
+  margin: 2rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* ============================================
+   RESOURCE LIST & CENTERED LISTS
+   ============================================ */
+
+.resource-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resource-list li {
+  margin-bottom: 0.75rem;
+  padding-left: 0;
+}
+
+.centered-list {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.centered-list li {
+  text-align: left;
+  display: inline-block;
+  width: 100%;
+}
+
+/* ============================================
+   NAVIGATION & HEADER
+   ============================================ */
+
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links li {
+  margin: 0;
+}
+
+.nav-links a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a:hover {
+  color: #0056ff;
+}
+
+.nav-links .home-icon {
+  font-size: 1.25rem;
+  color: #0056ff;
+}
+
+.nav-links .home-icon:hover {
+  color: #003ad6;
+}
+
+.account-icon {
+  font-size: 1.25rem;
+  color: #0056ff;
+  display: flex;
+  align-items: center;
+}
+
+.account-icon:hover {
+  color: #003ad6;
+}
+
+.join-btn {
+  margin-left: auto;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   SKIP LINK STYLING
+   ============================================ */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1em;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   FOCUS INDICATORS & KEYBOARD NAVIGATION
+   ============================================ */
+
+/* Remove default outline and add custom focus styles */
+*:focus {
+  outline: none;
+}
+
+/* Focus-visible: Only show focus indicator when keyboard navigating (modern browsers) */
+*:focus-visible {
+  outline: 3px solid #0056ff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 86, 255, 0.2);
+}
+
+/* Fallback for older browsers - show focus on all focus events */
+*:focus:not(:focus-visible) {
+  outline: 2px solid #0056ff;
+  outline-offset: 2px;
+}
+
+/* Links - Enhanced focus styles */
+a:focus-visible {
+  outline: 3px solid #0056ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+  text-decoration: underline;
+}
+
+a:focus:not(:focus-visible) {
+  outline: 2px solid #0056ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Buttons - Enhanced focus styles */
+button:focus-visible,
+.btn:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="button"]:focus-visible {
+  outline: 3px solid #0056ff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 86, 255, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+button:focus:not(:focus-visible),
+.btn:focus:not(:focus-visible),
+input[type="submit"]:focus:not(:focus-visible),
+input[type="button"]:focus:not(:focus-visible) {
+  outline: 2px solid #0056ff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 86, 255, 0.2);
+}
+
+/* Form inputs - Enhanced focus styles */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #0056ff;
+  outline-offset: 2px;
+  border-color: #0056ff;
+  box-shadow: 0 0 0 4px rgba(0, 86, 255, 0.15), 0 0 0 1px #0056ff;
+}
+
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+  outline: 2px solid #0056ff;
+  outline-offset: 1px;
+  border-color: #0056ff;
+  box-shadow: 0 0 0 2px rgba(0, 86, 255, 0.15);
+}
+
+/* Navigation links - Enhanced focus styles */
+nav a:focus-visible,
+.nav-links a:focus-visible {
+  outline: 3px solid #0056ff;
+  outline-offset: 2px;
+  background-color: rgba(0, 86, 255, 0.1);
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+nav a:focus:not(:focus-visible),
+.nav-links a:focus:not(:focus-visible) {
+  outline: 2px solid #0056ff;
+  outline-offset: 2px;
+  background-color: rgba(0, 86, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Calendar slot buttons - Enhanced focus styles */
+.slot:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 71, 255, 0.5), 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  z-index: 1;
+  position: relative;
+}
+
+.slot:focus:not(:focus-visible) {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 71, 255, 0.5);
+}
+
+/* Dropdown options - Enhanced focus styles */
+.dropdown .option:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -2px;
+  background-color: #003ad6;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.dropdown .option:focus:not(:focus-visible) {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+  background-color: #003ad6;
+}
+
+/* Subject cards and interactive cards - Enhanced focus styles */
+.subject-card:focus-visible,
+.pricing-card:focus-visible {
+  outline: 3px solid #0056ff;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(0, 86, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.subject-card:focus:not(:focus-visible),
+.pricing-card:focus:not(:focus-visible) {
+  outline: 2px solid #0056ff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 86, 255, 0.2);
+}
+
+/* Disabled elements - No focus indicator */
+button:disabled:focus,
+input:disabled:focus,
+.btn:disabled:focus,
+.slot.unavailable:focus {
+  outline: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Ensure focus is visible on high contrast backgrounds */
+.btn-primary:focus-visible {
+  outline-color: #fff;
+  outline-offset: 3px;
+}
+
+.btn-secondary:focus-visible {
+  outline-color: #0056ff;
+}
+
+/* Table cells - Focus for keyboard navigation */
+td:focus-visible,
+th:focus-visible {
+  outline: 2px solid #0056ff;
+  outline-offset: -2px;
+  background-color: rgba(0, 86, 255, 0.1);
+}
+
+/* Ensure focus indicators work in dark mode (if applicable) */
+@media (prefers-color-scheme: dark) {
+  *:focus-visible {
+    outline-color: #4a9eff;
+  }
+  
+  button:focus-visible,
+  .btn:focus-visible {
+    box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *:focus-visible,
+  *:focus:not(:focus-visible) {
+    transition: none;
+  }
+  
+  .slot:focus-visible,
+  .subject-card:focus-visible,
+  .pricing-card:focus-visible {
+    transform: none;
+  }
+}
+
+/* ============================================
+   INLINE STYLES MOVED TO EXTERNAL CSS
+   ============================================ */
+
+/* YouTube icon styling */
+.youtube-icon {
+  color: #ff0000;
+  margin-right: 10px;
+}
+
+/* Video loading spinner */
+.video-loading {
+  text-align: center;
+  padding: 20px;
+}
+
+.video-loading .fa-spinner {
+  font-size: 2rem;
+  color: var(--text-secondary, #86868b);
+}
+
+.video-loading p {
+  margin-top: 12px;
+  color: var(--text-secondary, #86868b);
+}
+
+/* CTA buttons spacing */
+.cta-buttons {
+  margin-top: 16px;
+}
+
+/* Hero section with green background (tutoring page) */
+.hero-section.green-bg {
+  background: #28a745;
+  color: white;
+}
+
+.hero-section.green-bg .hero-title {
+  -webkit-text-fill-color: white;
+  background: none;
+}
+
+.hero-section.green-bg .hero-subtitle {
+  color: #fff;
+}
+
+.hero-section.green-bg .btn-primary {
+  background: white;
+  color: #28a745;
+  border: 2px solid white;
+}
+
+/* Success icon (green checkmark) */
+.success-icon {
+  color: #28a745;
+}
+
+/* Error message container */
+.error-message-container {
+  display: none;
+  margin-bottom: var(--spacing-md, 16px);
+  padding: 12px;
+  border-radius: var(--border-radius, 8px);
+}
+
+.error-message-container.show {
+  display: block;
+}
+
+.error-message-container.alert-error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.error-message-container.alert-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+/* Admin page styles */
+.admin-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.admin-status {
+  margin-top: 10px;
+  color: var(--text-secondary, #86868b);
+}
+
+.section-title-spacing {
+  margin-top: 20px;
+}
+
+/* My bookings input styles */
+.bookings-email-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius, 8px);
+}
+
+.email-error-display {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Step label spacing */
+.step-label-spacing {
+  margin-top: var(--spacing-md, 16px);
+}
+
+/* Empty state variations */
+.empty-state.no-padding {
+  padding: 0;
+}
+
+.empty-state-icon.large {
+  font-size: 2.5rem;
+}
+
+.empty-state-message.small {
+  font-size: 0.95rem;
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.empty-state.margin-top {
+  margin-top: 2rem;
+}
+
+/* Table cell centering */
+.table-cell-center {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* Iframe styles */
+.video-embed iframe {
+  border: none;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 315px;
+}
+
+.video-embed-link {
+  display: block;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  max-width: 100%;
+}
+
+.video-embed-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.video-embed-play-label {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  color: #0056ff;
+  font-size: 0.95rem;
+}
+
+.video-embed-link:hover .video-embed-play-label {
+  background: rgba(0, 86, 255, 0.08);
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-secondary, #86868b);
+}
+
+.loading-state .fa-spinner {
+  margin-right: 8px;
+}
+
+/* Status message colors */
+.status-success {
+  color: #28a745;
+}
+
+.status-error {
+  color: #c33;
+}
+
+/* Error message styling */
+.error-message-inline {
+  color: #c33;
+  padding: 12px;
+  background: #f8d7da;
+}
+
+/* Warning message styling */
+.alert-warning {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+}
+
+/* ============================================
+   CONTACT FORM STYLING
+   ============================================ */
+
+.contact-form-section {
+  background: #fff;
+  padding: 3rem 0;
+  margin-top: 2rem;
+}
+
+.contact-form {
+  background: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  outline: none;
+  border-color: #0056ff;
+  box-shadow: 0 0 0 3px rgba(0, 86, 255, 0.1);
+}
+
+.contact-form input[type="text"]:hover,
+.contact-form input[type="email"]:hover,
+.contact-form textarea:hover,
+.contact-form select:hover {
+  border-color: #9ca3af;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+.contact-form input[type="text"].invalid,
+.contact-form input[type="email"].invalid,
+.contact-form textarea.invalid {
+  border-color: #dc2626;
+}
+
+.contact-form input[type="text"].invalid:focus,
+.contact-form input[type="email"].invalid:focus,
+.contact-form textarea.invalid:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.field-error {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+  min-height: 1.25rem;
+}
+
+.field-error.email-error-display {
+  display: block;
+}
+
+/* Two-column layout for name fields */
+.contact-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .contact-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+/* Submit button styling */
+.contact-form .btn-primary {
+  width: 100%;
+  max-width: 200px;
+  margin-top: 0.5rem;
+  padding: 14px 24px;
+  font-size: 1rem;
+}
