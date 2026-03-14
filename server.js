@@ -559,9 +559,12 @@ app.post(
           error: err,
           path: req.path,
           ip: req.ip,
+          message: err.message,
         });
         return res.status(400).send(`Webhook Error: ${err.message}`);
       }
+
+      logger.info('Stripe webhook received', { eventType: event.type, id: event.id });
 
       if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
@@ -645,11 +648,13 @@ app.post(
       }
 
       res.status(200).json({ received: true });
+      logger.info('Stripe webhook response sent', { statusCode: 200 });
     } catch (err) {
       logger.error('Stripe webhook handler error', {
         error: err,
         path: req.path,
         ip: req.ip,
+        message: err.message,
       });
       res.status(500).send('Webhook handler failed');
     }
