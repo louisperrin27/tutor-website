@@ -1492,12 +1492,18 @@ app.post('/api/forgot-password', passwordResetLimiter, async (req, res) => {
       resetTime: now + (60 * 60 * 1000), // 1 hour
     });
 
-    // Send reset email
+    // Send reset email in background so Render cold start + slow SMTP don't timeout the request
     const baseUrl = getBaseUrl(req);
-    await sendPasswordResetEmail(validatedEmail, resetToken, baseUrl);
+    setImmediate(() => {
+      sendPasswordResetEmail(validatedEmail, resetToken, baseUrl).then(() => {
+        logger.info('Password reset email sent', { userId: user.id, email: validatedEmail });
+      }).catch((err) => {
+        logger.error('Password reset email failed', { error: err, email: validatedEmail, userId: user.id });
+      });
+    });
 
-    logger.info('Password reset requested', { 
-      userId: user.id, 
+    logger.info('Password reset requested', {
+      userId: user.id,
       email: validatedEmail,
       ip: requestIp,
       isMobile: isMobileRequest(req),
