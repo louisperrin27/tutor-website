@@ -542,11 +542,10 @@ const bookingLimiter = rateLimit({
 // NOTE: This must be registered before other JSON body parsers.
 // The webhook must return 200 quickly so Stripe does not retry; email sending
 // runs after the response and must not block or affect the response.
+// Accept both /stripe/webhook and /stripe/webhook/ so 404 does not occur if
+// the request is normalized with a trailing slash by proxy or Stripe.
 // -----------------------------------
-app.post(
-  '/stripe/webhook',
-  bodyParser.raw({ type: 'application/json' }),
-  async (req, res) => {
+const stripeWebhookHandler = async (req, res) => {
     try {
       if (!stripe) { return res.status(200).send('Stripe not configured'); }
       const sig = req.headers['stripe-signature'];
@@ -630,6 +629,7 @@ app.post(
         // Respond to Stripe immediately. Stripe requires a fast 200 to avoid retries and
         // mark the delivery as successful; slow or failing email must not block the response.
         res.status(200).json({ received: true });
+        logger.info('Stripe webhook response sent', { statusCode: 200, eventType: 'checkout.session.completed' });
 
         // Send confirmation email asynchronously after the response. On environments where
         // SMTP is blocked (e.g. Render free tier), this will fail but the webhook has
@@ -659,7 +659,10 @@ app.post(
       res.status(500).send('Webhook handler failed');
     }
   }
-);
+;
+const rawBodyParser = bodyParser.raw({ type: 'application/json' });
+app.post('/stripe/webhook', rawBodyParser, stripeWebhookHandler);
+app.post('/stripe/webhook/', rawBodyParser, stripeWebhookHandler);
 
 // Now enable JSON body parsing for the rest of the app
 app.use(bodyParser.json());
