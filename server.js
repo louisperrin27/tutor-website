@@ -540,14 +540,16 @@ const bookingLimiter = rateLimit({
 // -----------------------------------
 // Stripe Webhook (marks slots booked after successful payment)
 // NOTE: This must be registered before other JSON body parsers.
+// The webhook must return 200 quickly so Stripe does not retry; email sending
+// runs after the response and must not block or affect the response.
 // -----------------------------------
 app.post(
   '/stripe/webhook',
   bodyParser.raw({ type: 'application/json' }),
   async (req, res) => {
     try {
-      if (!stripe) {return res.status(200).send('Stripe not configured');}
-      const sig = req.headers['stripe-signature']; // provided by Stripe
+      if (!stripe) { return res.status(200).send('Stripe not configured'); }
+      const sig = req.headers['stripe-signature'];
       const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
       let event;
       try {
@@ -566,8 +568,8 @@ app.post(
         const slotId = validateSlotId(session.metadata?.slot_id);
         const rawEmail = session.customer_details?.email || session.customer_email;
         const email = validateAndSanitizeEmail(rawEmail) || 'unknown@example.com';
-        const amount = typeof session.amount_total === 'number' && session.amount_total >= 0 
-          ? session.amount_total 
+        const amount = typeof session.amount_total === 'number' && session.amount_total >= 0
+          ? session.amount_total
           : 0;
         const paymentIntent = session.payment_intent?.toString() || '';
 
@@ -576,18 +578,15 @@ app.post(
             sessionId: session.id,
             metadata: session.metadata,
           });
-          return res.json({ received: true });
+          return res.status(200).json({ received: true });
         }
 
         const bookTxn = db.transaction(() => {
-          // Try to update slot - check both reserved with matching session_id, or just reserved (fallback)
           const update = db
             .prepare(
               "UPDATE slots SET status='booked' WHERE id=? AND status='reserved' AND stripe_session_id=?"
             )
             .run(slotId, session.id);
-          
-          // If that didn't work, try without stripe_session_id check (handles timing issues)
           if (update.changes !== 1) {
             const updateFallback = db
               .prepare("UPDATE slots SET status='booked' WHERE id=? AND status='reserved'")
@@ -598,11 +597,9 @@ app.post(
                 sessionId: session.id,
                 slotStatus: db.prepare('SELECT status FROM slots WHERE id=?').get(slotId)?.status,
               });
-              return false; // already processed or not reserved
+              return false;
             }
           }
-          
-          // Check if booking already exists
           const existing = db.prepare('SELECT id FROM bookings WHERE slot_id=?').get(slotId);
           if (!existing) {
             const insert = db
@@ -621,12 +618,23 @@ app.post(
           }
           return true;
         });
-        
-        if (bookTxn()) {
-          sendBookingEmailSafe({ email, slotId });
-        } else {
+
+        const bookingSaved = bookTxn();
+        if (!bookingSaved) {
           logger.warn('Webhook: Booking transaction failed', { slotId, email, sessionId: session.id });
         }
+
+        // Respond to Stripe immediately. Stripe requires a fast 200 to avoid retries and
+        // mark the delivery as successful; slow or failing email must not block the response.
+        res.status(200).json({ received: true });
+
+        // Send confirmation email asynchronously after the response. On environments where
+        // SMTP is blocked (e.g. Render free tier), this will fail but the webhook has
+        // already succeeded; failures are logged and do not affect the response.
+        if (bookingSaved) {
+          sendBookingEmailSafe({ email, slotId });
+        }
+        return;
       }
 
       if (event.type === 'checkout.session.expired') {
@@ -636,7 +644,7 @@ app.post(
         ).run(session.id);
       }
 
-      res.json({ received: true });
+      res.status(200).json({ received: true });
     } catch (err) {
       logger.error('Stripe webhook handler error', {
         error: err,
@@ -1915,7 +1923,8 @@ app.get('/api/calendar', (req, res, _next) => requireAdmin(req, res, () => {
   res.json(rows);
 }));
 
-// Helper: send confirmation email; ignores failures in background
+// Helper: send confirmation email in background. Failures are logged only and
+// never affect the webhook or HTTP response (used after webhook has already returned 200).
 function sendBookingEmailSafe({ email, slotId }) {
   setImmediate(() => {
     try {
