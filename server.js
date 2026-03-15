@@ -983,10 +983,8 @@ app.get('/checkout/success', async (req, res) => {
       }
     }
     
-    // Redirect to confirmation page with email pre-filled
-    const url = new URL(`${baseUrl}/confirmation.html`);
-    if (email) {url.searchParams.set('email', email);}
-    res.redirect(url.toString());
+    // Redirect to confirmation page (no email in URL to avoid Safe Browsing flags)
+    res.redirect(`${baseUrl}/confirmation.html`);
   } catch (err) {
     logger.error('Checkout success redirect error', {
       error: err,
@@ -1689,22 +1687,24 @@ app.get('/manage-bookings', (req, res) => {
   return res.redirect('/login.html');
 });
 
-// Serve confirmation.html with server-side login state injection
+// Serve confirmation.html with server-side login state and booking email injection
 app.get('/confirmation.html', (req, res, next) => {
   const isLoggedIn = !!(req.session && req.session.userId && req.session.userEmail);
+  const lastBookingEmail = req.session?.lastBookingEmail || '';
   const filePath = path.join(__dirname, 'confirmation.html');
   
   try {
     const data = fs.readFileSync(filePath, 'utf8');
     
-    // Inject script to set login state flag
+    // Inject script for login state and booking email (no PII in URL)
+    const escapedEmail = lastBookingEmail.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/</g, '\\u003c');
     const loginStateScript = `
       <script>
-        // Login state injected by server
+        // Login state and booking email injected by server
         window.__IS_LOGGED_IN__ = ${isLoggedIn};
+        window.__LAST_BOOKING_EMAIL__ = ${lastBookingEmail ? `'${escapedEmail}'` : 'null'};
       </script>`;
     
-    // Inject script before closing head tag
     const modifiedData = data.replace('</head>', loginStateScript + '</head>');
     
     res.setHeader('Content-Type', 'text/html');

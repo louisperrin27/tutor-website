@@ -66,8 +66,8 @@
       </div>
     </main>
     <script>
-      const u = new URL(window.location.href);
-      const email = u.searchParams.get('email');
+      // Prefer server-injected email (no PII in URL); fallback to query for legacy links
+      const email = window.__LAST_BOOKING_EMAIL__ || new URL(window.location.href).searchParams.get('email') || null;
       if (email) {
         document.getElementById('emailOut').textContent = email;
       }
